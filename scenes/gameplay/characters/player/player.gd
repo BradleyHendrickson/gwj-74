@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 @export var speed = 200
-@export var friction = 0.099
-@export var acceleration = 0.2
+@export var friction = 0.2
+@export var acceleration = 0.4
 
 func get_input():
 	var input = Vector2()

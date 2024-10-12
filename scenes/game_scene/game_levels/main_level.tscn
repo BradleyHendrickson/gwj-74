@@ -1,18 +1,31 @@
-[gd_scene load_steps=3 format=3 uid="uid://df7kmd4p6bjkw"]
+[gd_scene load_steps=4 format=3 uid="uid://df7kmd4p6bjkw"]
 
 [ext_resource type="PackedScene" uid="uid://cwn1et87gy81h" path="res://scenes/gameplay/characters/player/player.tscn" id="1_e84nw"]
+[ext_resource type="PackedScene" uid="uid://bds4qwlp0q4ox" path="res://scenes/gameplay/game controllers/game_controller.tscn" id="2_b25db"]
 [ext_resource type="Texture2D" uid="uid://c8h8jl3qgxtsh" path="res://assets/sprites/background.png" id="2_e6ntt"]
 
 [node name="MainLevel" type="Node2D"]
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("1_e84nw")]
+[node name="Background2" type="Sprite2D" parent="."]
+position = Vector2(399, -78)
+texture = ExtResource("2_e6ntt")
+
+[node name="GameController" parent="." instance=ExtResource("2_b25db")]
+
+[node name="Player" parent="GameController" instance=ExtResource("1_e84nw")]
 position = Vector2(0, 2)
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Parallax2D" type="Parallax2D" parent="ParallaxBackground"]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer"]
+
+[node name="Parallax2D" type="Parallax2D" parent="CanvasLayer/ParallaxBackground"]
 repeat_size = Vector2(32, 32)
 repeat_times = 20
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Parallax2D"]
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/ParallaxBackground/Parallax2D"]
+texture = ExtResource("2_e6ntt")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(-8, 10)
 texture = ExtResource("2_e6ntt")
