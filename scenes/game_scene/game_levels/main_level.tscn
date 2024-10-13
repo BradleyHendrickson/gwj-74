@@ -1,31 +1,35 @@
-[gd_scene load_steps=4 format=3 uid="uid://df7kmd4p6bjkw"]
+[gd_scene load_steps=7 format=4 uid="uid://df7kmd4p6bjkw"]
 
 [ext_resource type="PackedScene" uid="uid://cwn1et87gy81h" path="res://scenes/gameplay/characters/player/player.tscn" id="1_e84nw"]
 [ext_resource type="PackedScene" uid="uid://bds4qwlp0q4ox" path="res://scenes/gameplay/game controllers/game_controller.tscn" id="2_b25db"]
-[ext_resource type="Texture2D" uid="uid://c8h8jl3qgxtsh" path="res://assets/sprites/background.png" id="2_e6ntt"]
+[ext_resource type="Texture2D" uid="uid://bilp55wte8kmn" path="res://assets/sprites/tileset.png" id="3_q03rn"]
+[ext_resource type="PackedScene" uid="uid://bwi541hhk6ryr" path="res://scenes/gameplay/characters/enemy/ghost_small.tscn" id="4_ulml0"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3gyb8"]
+texture = ExtResource("3_q03rn")
+1:1/0 = 0
+2:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_kbjyu"]
+sources/0 = SubResource("TileSetAtlasSource_3gyb8")
 
 [node name="MainLevel" type="Node2D"]
-
-[node name="Background2" type="Sprite2D" parent="."]
-position = Vector2(399, -78)
-texture = ExtResource("2_e6ntt")
 
 [node name="GameController" parent="." instance=ExtResource("2_b25db")]
 
 [node name="Player" parent="GameController" instance=ExtResource("1_e84nw")]
 position = Vector2(0, 2)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="TileMapLayer" type="TileMapLayer" parent="GameController"]
+z_index = -10
+tile_map_data = PackedByteArray("AAABAAEAAAACAAEAAAABAAIAAAACAAEAAAACAAIAAAACAAEAAAACAAEAAAACAAEAAAAAAAEAAAABAAEAAAD6//7/AAACAAEAAAD4/wEAAAABAAEAAAAJAAEAAAACAAEAAAAJAAIAAAABAAEAAAAIAAIAAAACAAEAAAAKAAIAAAABAAEAAAD7/wYAAAABAAEAAAD8/wYAAAABAAEAAAD9/wYAAAABAAEAAAD+/wYAAAABAAEAAAD+/wcAAAACAAEAAAD9/wcAAAACAAEAAAD8/wcAAAACAAEAAAD7/wcAAAACAAEAAAD5//7/AAACAAEAAAD5////AAACAAEAAAD6////AAACAAEAAAAHAPr/AAACAAEAAAAGAPr/AAACAAEAAAAGAPv/AAACAAEAAAAHAPv/AAACAAEAAAA=")
+tile_set = SubResource("TileSet_kbjyu")
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer"]
+[node name="GhostSmall" parent="GameController" instance=ExtResource("4_ulml0")]
+position = Vector2(137, 78)
 
-[node name="Parallax2D" type="Parallax2D" parent="CanvasLayer/ParallaxBackground"]
-repeat_size = Vector2(32, 32)
-repeat_times = 20
+[node name="GhostSmall2" parent="GameController" instance=ExtResource("4_ulml0")]
+position = Vector2(124, -98)
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/ParallaxBackground/Parallax2D"]
-texture = ExtResource("2_e6ntt")
-
-[node name="Background" type="Sprite2D" parent="."]
-position = Vector2(-8, 10)
-texture = ExtResource("2_e6ntt")
+[node name="GhostSmall3" parent="GameController" instance=ExtResource("4_ulml0")]
+position = Vector2(-144, -34)
