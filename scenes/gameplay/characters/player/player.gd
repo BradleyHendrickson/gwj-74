@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var gun: Node2D = $Gun
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
+
 func get_input():
 	var input = Vector2()
 	if Input.is_action_pressed('move_right'):
@@ -21,8 +22,8 @@ func get_input():
 func _process(delta):
 	var mouse_pos = get_global_mouse_position()
 	if mouse_pos.x > global_position.x:
-		gun.scale = Vector2(1,1)
 		animated_sprite_2d.flip_h = false
+		gun.scale = Vector2(1,1)
 	else:
 		gun.scale = Vector2(1,-1)
 		animated_sprite_2d.flip_h = true
@@ -36,6 +37,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("reload"):
 		gun.reload()
 	
+		
 func _physics_process(delta):
 	var direction = get_input()
 	if direction.length() > 0:

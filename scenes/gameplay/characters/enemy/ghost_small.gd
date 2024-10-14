@@ -5,9 +5,19 @@ extends CharacterBody2D
 
 const SPEED = 50
 const JUMP_VELOCITY = -400.0
+@export var health = 5
 
 @onready var targets: Array
 
+func die():
+	smoke_generator.smoke(4)
+	queue_free()
+
+func hit(damage):
+	health -= damage
+	if health <= 0:
+		die()
+		
 func _physics_process(delta: float) -> void:
 
 	if len(targets) > 0:
