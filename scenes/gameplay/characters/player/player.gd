@@ -31,7 +31,10 @@ func _process(delta):
 	var aim_dir = (mouse_pos - global_position).angle()
 	gun.rotation = aim_dir
 	
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_pressed("shoot") and gun.isAuto():
+		gun.shoot()
+	
+	if Input.is_action_just_pressed("shoot") and !gun.isAuto():
 		gun.shoot()
 		
 	if Input.is_action_just_pressed("reload"):

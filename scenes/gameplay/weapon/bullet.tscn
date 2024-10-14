@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://nnegpx04yylx"]
 
-[ext_resource type="Texture2D" uid="uid://cm4u7jb2ajs3j" path="res://assets/sprites/bullet_1.png" id="1_c48o7"]
-[ext_resource type="Script" path="res://scenes/gameplay/projectile/bullet.gd" id="1_v22oc"]
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/bullet.gd" id="1_dxxab"]
+[ext_resource type="Texture2D" uid="uid://cm4u7jb2ajs3j" path="res://assets/sprites/bullet_1.png" id="2_ay4t5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bqbex"]
 size = Vector2(11, 5)
@@ -9,10 +9,10 @@ size = Vector2(11, 5)
 [node name="Bullet" type="Area2D"]
 collision_layer = 8
 collision_mask = 5
-script = ExtResource("1_v22oc")
+script = ExtResource("1_dxxab")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_c48o7")
+texture = ExtResource("2_ay4t5")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
