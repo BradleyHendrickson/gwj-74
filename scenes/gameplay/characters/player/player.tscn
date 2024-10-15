@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://scenes/gameplay/characters/player/gun.gd" id="3_gxn08"]
 [ext_resource type="Texture2D" uid="uid://db26e1u6sogxa" path="res://assets/sprites/haunted_gun_spin.png" id="4_4nspr"]
 [ext_resource type="PackedScene" uid="uid://bouwt7mdvrnvh" path="res://scenes/gameplay/weapon/gun_core.tscn" id="4_fw1sh"]
-[ext_resource type="PackedScene" uid="uid://fx18jf34hdoj" path="res://scenes/gameplay/weapon/bullet_shotgun.tscn" id="5_ii2ye"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/weapon/bullet_shotgun.tscn" id="5_ii2ye"]
 [ext_resource type="PackedScene" uid="uid://bjut8lshs3p12" path="res://scenes/gameplay/weapon/gun_magazine.tscn" id="5_l331e"]
 [ext_resource type="AudioStream" uid="uid://cd0mlej8rpmku" path="res://assets/sounds/gunshot_smg_shot_4-203474.mp3" id="6_1lfny"]
 [ext_resource type="PackedScene" uid="uid://bpbxkuaswfrtw" path="res://scenes/gameplay/weapon/gun_nozzle.tscn" id="6_85xu2"]
@@ -717,14 +717,13 @@ script = ExtResource("3_gxn08")
 
 [node name="GunCore" parent="Gun" instance=ExtResource("4_fw1sh")]
 bullet = ExtResource("5_ii2ye")
-spread = 15
+spread = 0
 cooldown = 0.2
 use_cooldown_sound = true
 
 [node name="GunMagazine" parent="Gun" instance=ExtResource("5_l331e")]
-capacity = 4
-cooldown_mod = 2.0
-reload_time_mod = 5.0
+capacity = 10
+cooldown_mod = 1.0
 
 [node name="GunNozzle" parent="Gun" instance=ExtResource("6_85xu2")]
 bullet_count = 5

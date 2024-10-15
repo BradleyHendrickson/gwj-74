@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=4 uid="uid://df7kmd4p6bjkw"]
+[gd_scene load_steps=8 format=4 uid="uid://df7kmd4p6bjkw"]
 
 [ext_resource type="PackedScene" uid="uid://cwn1et87gy81h" path="res://scenes/gameplay/characters/player/player.tscn" id="1_e84nw"]
 [ext_resource type="PackedScene" uid="uid://bds4qwlp0q4ox" path="res://scenes/gameplay/game controllers/game_controller.tscn" id="2_b25db"]
 [ext_resource type="Texture2D" uid="uid://kyclahjcdkdu" path="res://assets/sprites/editor files/tileset.png" id="3_edjp8"]
 [ext_resource type="PackedScene" uid="uid://bwi541hhk6ryr" path="res://scenes/gameplay/characters/enemy/ghost_small.tscn" id="4_ulml0"]
+[ext_resource type="PackedScene" uid="uid://c8cchc2apt45e" path="res://scenes/gameplay/characters/enemy/sludge.tscn" id="5_cfnv6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_djtl6"]
 texture = ExtResource("3_edjp8")
@@ -170,3 +171,6 @@ position = Vector2(124, -98)
 
 [node name="GhostSmall3" parent="GameController" instance=ExtResource("4_ulml0")]
 position = Vector2(-144, -34)
+
+[node name="Sludge" parent="GameController" instance=ExtResource("5_cfnv6")]
+position = Vector2(-106, 73)
