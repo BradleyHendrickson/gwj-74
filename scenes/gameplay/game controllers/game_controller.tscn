@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bds4qwlp0q4ox"]
+[gd_scene load_steps=3 format=3 uid="uid://bds4qwlp0q4ox"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/game controllers/game_controller.gd" id="1_ors37"]
+[ext_resource type="AudioStream" uid="uid://jlt34qn076h2" path="res://assets/sounds/ghost-of-caesar-20353.mp3" id="2_qr823"]
 
 [node name="GameController" type="Node2D"]
 script = ExtResource("1_ors37")
@@ -10,3 +11,6 @@ zoom = Vector2(2, 2)
 
 [node name="PlayerRespawnTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="GameMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_qr823")

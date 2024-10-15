@@ -24,7 +24,7 @@ extends Node2D
 #@export var cooldown = 0.08
 
 @export var smoke_amount = 1
-@export var was_stopped = false
+@export var was_stopped = true
 
 var MUZZLE_DISTANCE = 22
 
@@ -82,7 +82,7 @@ func reload():
 func _process(delta: float) -> void:
 	
 	if !was_stopped and cooldown_timer.is_stopped():
-		gun_core.playCooldownSound()
+		gun_core.cooldownSound()
 	was_stopped= cooldown_timer.is_stopped()
 	
 	if reload_timer.is_stopped() and animated_sprite_2d.animation == "spin_infinite":

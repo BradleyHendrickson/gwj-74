@@ -719,6 +719,7 @@ script = ExtResource("3_gxn08")
 bullet = ExtResource("5_ii2ye")
 spread = 15
 cooldown = 0.2
+use_cooldown_sound = true
 
 [node name="GunMagazine" parent="Gun" instance=ExtResource("5_l331e")]
 capacity = 4

@@ -4,13 +4,15 @@ extends Node2D
 @onready var player = $Player
 @export var health: int = 6
 @onready var player_respawn_timer: Timer = $PlayerRespawnTier
+@onready var game_music: AudioStreamPlayer2D = $GameMusic
 
 @export var playerObject : PackedScene
 
 var target_camera_position = Vector2(0,0)
 @export var follow_smoothing = 8
 
-#func _ready() -> void:
+func _ready() -> void:
+	game_music.play()
 	#game_ui.setHealth(health)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
