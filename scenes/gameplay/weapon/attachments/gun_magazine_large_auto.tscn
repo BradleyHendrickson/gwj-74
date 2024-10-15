@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2kg224hcn3nn"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/gun_magazine.gd" id="1_ifria"]
+
+[node name="GunMagazine" type="Node2D"]
+script = ExtResource("1_ifria")
+capacity = 20
+cooldown_mod = 0.9
+auto = true
+reload_time_mod = 5.0

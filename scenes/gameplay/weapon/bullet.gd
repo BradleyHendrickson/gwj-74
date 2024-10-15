@@ -5,6 +5,8 @@ extends Area2D
 @export var damage = 1
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
+
+
 var damagable_targets: Array
 
 @onready var timer = $Timer
