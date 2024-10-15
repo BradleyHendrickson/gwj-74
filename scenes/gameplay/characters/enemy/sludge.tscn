@@ -58,7 +58,7 @@ health = 10
 position = Vector2(-6, -8)
 sprite_frames = SubResource("SpriteFrames_n41of")
 autoplay = "default"
-frame_progress = 0.458675
+frame_progress = 0.350914
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5pyao")
