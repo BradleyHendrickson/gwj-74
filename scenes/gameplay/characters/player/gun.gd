@@ -68,6 +68,7 @@ func isReloading():
 func reload():
 	if !isReloading():
 		reload_start.play()
+		#reload_finish.play()
 		animated_sprite_2d.stop()
 		#animated_sprite_2d.speed_scale = gun_magazine.reload_time_mod
 		animated_sprite_2d.play("spin_start")
@@ -79,6 +80,7 @@ func _process(delta: float) -> void:
 	if reload_timer.is_stopped() and animated_sprite_2d.animation == "spin_infinite":
 		reload_sound.stop()
 		reload_finish.play()
+		#reload_start.play()
 		animated_sprite_2d.play("spin_finish")
 	
 	if !animated_sprite_2d.is_playing():
