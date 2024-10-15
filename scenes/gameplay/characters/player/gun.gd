@@ -5,6 +5,8 @@ extends Node2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var smoke_generator: Node2D = $SmokeGenerator
 @onready var reload_sound: AudioStreamPlayer2D = $ReloadSound
+@onready var reload_start: AudioStreamPlayer2D = $ReloadStart
+@onready var reload_finish: AudioStreamPlayer2D = $ReloadFinish
 
 @onready var gun_core: Node2D = $GunCore
 @onready var gun_magazine: Node2D = $GunMagazine
@@ -65,7 +67,7 @@ func isReloading():
 	
 func reload():
 	if !isReloading():
-		reload_sound.play()
+		reload_start.play()
 		animated_sprite_2d.stop()
 		#animated_sprite_2d.speed_scale = gun_magazine.reload_time_mod
 		animated_sprite_2d.play("spin_start")
@@ -75,10 +77,13 @@ func reload():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if reload_timer.is_stopped() and animated_sprite_2d.animation == "spin_infinite":
+		reload_sound.stop()
+		reload_finish.play()
 		animated_sprite_2d.play("spin_finish")
 	
 	if !animated_sprite_2d.is_playing():
 		if animated_sprite_2d.animation == "spin_start":
+			reload_sound.play()
 			reload_timer.start(getReloadTime())
 			animated_sprite_2d.play("spin_infinite") 
 		else:
