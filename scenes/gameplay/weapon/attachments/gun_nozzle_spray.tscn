@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://7htbbpp6qomx"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_nozzle.gd" id="1_n3egb"]
+
+[node name="GunNozzle" type="Node2D"]
+script = ExtResource("1_n3egb")
+spread_mod = 2.0
+cooldown_mod = 0.5

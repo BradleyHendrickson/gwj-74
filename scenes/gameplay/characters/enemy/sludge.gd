@@ -1,17 +1,15 @@
 extends CharacterBody2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var smoke_generator: Node2D = $SmokeGenerator
 
-@export var speed = 50
+
+const SPEED = 35
 const JUMP_VELOCITY = -400.0
 @export var health = 5
 
 @onready var targets: Array
 
 func die():
-	smoke_generator.smoke(4)
-	print("good")
 	queue_free()
 
 func hit(damage):
@@ -25,7 +23,7 @@ func _physics_process(delta: float) -> void:
 		var follow = targets[0]
 		var direction = follow.position -  position 
 		var dir_vec = direction.normalized()
-		velocity = dir_vec * speed
+		velocity = dir_vec * SPEED
 
 	if sign(velocity.x) > 0:
 		animated_sprite_2d.flip_h = false

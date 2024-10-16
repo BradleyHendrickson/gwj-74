@@ -18,6 +18,18 @@ extends Node2D
 @export var auto : bool = false
 @export var uses_ammo : bool = true
 
+@export var GunCorePistol : PackedScene
+@export var GunCoreShotgun : PackedScene
+
+@export var GunMagazineSmall : PackedScene
+@export var GunMagazineLargeAuto : PackedScene
+
+@export var GunNozzleAccurate : PackedScene
+@export var GunNozzleSpray : PackedScene
+
+@export var currGunCore = 'pistol'
+@export var currGunMagazine = 'small'
+@export var currGunNozzle = 'accurate'
 
 @onready var shoot_sound_1: AudioStreamPlayer2D = $ShootSound1
 
@@ -36,10 +48,10 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func isAuto():
-	return auto
+	return gun_magazine.auto
 
 func getCooldownTime():
-	return gun_core.cooldown * gun_magazine.cooldown_mod
+	return gun_core.cooldown * gun_magazine.cooldown_mod * gun_nozzle.cooldown_mod
 
 func getReloadTime():
 	return 0.2222 * gun_magazine.reload_time_mod
@@ -56,7 +68,9 @@ func shoot():
 		
 		for i in gun_nozzle.bullet_count:
 			
-			var rand_dir = randf_range(-deg_to_rad(gun_core.spread), deg_to_rad(gun_core.spread))
+			var actualSpread = gun_core.spread * gun_nozzle.spread_mod
+			
+			var rand_dir = randf_range(-deg_to_rad(actualSpread), deg_to_rad(actualSpread))
 			var new_bullet = gun_core.bullet.instantiate()
 			get_tree().root.add_child(new_bullet)
 			new_bullet.transform = Transform2D( rotation  - rand_dir , global_position + Vector2(MUZZLE_DISTANCE * cos(rotation), MUZZLE_DISTANCE * sin(rotation)))
@@ -78,8 +92,52 @@ func reload():
 		
 		ammo = gun_magazine.capacity
 
+func getDebugLabel():
+	return currGunCore + "\n" + currGunMagazine + ": " + str(gun_magazine.auto) + "\n" + currGunNozzle
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
+
+	
+	if Input.is_action_just_pressed("debug_swap_core"):
+		print(currGunCore)
+		if currGunCore == 'pistol':
+			gun_core.queue_free()
+			var newGunCore = GunCoreShotgun.instantiate()
+			gun_core = newGunCore
+			currGunCore = 'shotgun'
+		elif currGunCore == 'shotgun':
+			gun_core.queue_free()
+			var newGunCore = GunCorePistol.instantiate()
+			gun_core = newGunCore
+			currGunCore = 'pistol'
+			
+	if Input.is_action_just_pressed("debug_swap_magazine"):
+		print(currGunMagazine)
+		if currGunMagazine == 'small':
+			gun_magazine.queue_free()
+			var newGunMagazine = GunMagazineLargeAuto.instantiate()
+			gun_magazine = newGunMagazine
+			currGunMagazine = 'largeauto'
+		elif currGunMagazine == 'largeauto':
+			gun_magazine.queue_free()
+			var newGunMagazine = GunMagazineSmall.instantiate()
+			gun_magazine = newGunMagazine
+			currGunMagazine = 'small'
+	
+	if Input.is_action_just_pressed("debug_swap_nozzle"):
+		print(currGunMagazine)
+		if currGunNozzle == 'accurate':
+			gun_nozzle.queue_free()
+			var newGunNozzle = GunNozzleSpray.instantiate()
+			gun_nozzle = newGunNozzle
+			currGunNozzle = 'spray'
+		elif currGunNozzle == 'spray':
+			gun_nozzle.queue_free()
+			var newGunNozzle = GunNozzleAccurate.instantiate()
+			gun_nozzle = newGunNozzle
+			currGunNozzle= 'accurate'
 	
 	if !was_stopped and cooldown_timer.is_stopped():
 		gun_core.cooldownSound()
