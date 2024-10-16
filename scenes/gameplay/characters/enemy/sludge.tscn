@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://c8cchc2apt45e"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/characters/enemy/ghost_small.gd" id="1_20p0h"]
-[ext_resource type="Texture2D" uid="uid://d284xhah2p8pk" path="res://assets/sprites/editor files/Slime-Sheet.png" id="1_rdt03"]
+[ext_resource type="Texture2D" uid="uid://bd2tu8sp6t5my" path="res://assets/sprites/Slime-Sheet.png" id="1_rdt03"]
 [ext_resource type="PackedScene" uid="uid://dn6dkghyx5fp" path="res://scenes/gameplay/effects/smoke_generator.tscn" id="2_w6r1x"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sxp18"]
