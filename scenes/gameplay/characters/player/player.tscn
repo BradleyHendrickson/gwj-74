@@ -1,16 +1,19 @@
-[gd_scene load_steps=107 format=3 uid="uid://cwn1et87gy81h"]
+[gd_scene load_steps=110 format=3 uid="uid://cwn1et87gy81h"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/characters/player/player.gd" id="1_2aebs"]
 [ext_resource type="Texture2D" uid="uid://dabrkgwim1ayr" path="res://assets/sprites/player.png" id="1_ops1q"]
 [ext_resource type="PackedScene" uid="uid://dn6dkghyx5fp" path="res://scenes/gameplay/effects/smoke_generator.tscn" id="2_uahlc"]
+[ext_resource type="PackedScene" uid="uid://dr62n1n3vswk6" path="res://scenes/gameplay/weapon/attachments/gun_core_pistol.tscn" id="2_w16w6"]
 [ext_resource type="Texture2D" uid="uid://buqslqbwqtnp" path="res://assets/sprites/haunted_revolver.png" id="3_38y86"]
 [ext_resource type="Script" path="res://scenes/gameplay/characters/player/gun.gd" id="3_gxn08"]
+[ext_resource type="PackedScene" uid="uid://sw1brtbthupi" path="res://scenes/gameplay/weapon/attachments/gun_core_shotgun.tscn" id="3_rcwv1"]
 [ext_resource type="Texture2D" uid="uid://db26e1u6sogxa" path="res://assets/sprites/haunted_gun_spin.png" id="4_4nspr"]
-[ext_resource type="PackedScene" uid="uid://bouwt7mdvrnvh" path="res://scenes/gameplay/weapon/gun_core.tscn" id="4_fw1sh"]
-[ext_resource type="PackedScene" path="res://scenes/gameplay/weapon/bullet_shotgun.tscn" id="5_ii2ye"]
-[ext_resource type="PackedScene" uid="uid://bjut8lshs3p12" path="res://scenes/gameplay/weapon/gun_magazine.tscn" id="5_l331e"]
 [ext_resource type="AudioStream" uid="uid://cd0mlej8rpmku" path="res://assets/sounds/gunshot_smg_shot_4-203474.mp3" id="6_1lfny"]
-[ext_resource type="PackedScene" uid="uid://bpbxkuaswfrtw" path="res://scenes/gameplay/weapon/gun_nozzle.tscn" id="6_85xu2"]
+[ext_resource type="PackedScene" uid="uid://eu5ohbcsq3q1" path="res://scenes/gameplay/weapon/attachments/gun_magazine_small.tscn" id="6_u3067"]
+[ext_resource type="PackedScene" uid="uid://b2kg224hcn3nn" path="res://scenes/gameplay/weapon/attachments/gun_magazine_large.tscn" id="7_q2d50"]
+[ext_resource type="PackedScene" uid="uid://cuuqx8qge5ut4" path="res://scenes/gameplay/weapon/attachments/gun_nozzle_accurate.tscn" id="8_378vc"]
+[ext_resource type="PackedScene" uid="uid://7htbbpp6qomx" path="res://scenes/gameplay/weapon/attachments/gun_nozzle_spray.tscn" id="9_mww7p"]
+[ext_resource type="PackedScene" uid="uid://b1qoct887ld1x" path="res://scenes/gameplay/weapon/attachments/gun_nozzle_shotgun.tscn" id="10_whwi7"]
 [ext_resource type="AudioStream" uid="uid://y2f6quyop667" path="res://assets/sounds/reload_start.wav" id="11_udwua"]
 [ext_resource type="AudioStream" uid="uid://c57gy2bdasa6g" path="res://assets/sounds/reload_finish_2.wav" id="12_olmef"]
 [ext_resource type="AudioStream" uid="uid://cb65yjusolwtk" path="res://assets/sounds/new_audio_stream_wav.tres" id="13_fu43y"]
@@ -714,19 +717,19 @@ position_smoothing_speed = 100.0
 
 [node name="Gun" type="Node2D" parent="."]
 script = ExtResource("3_gxn08")
+GunCorePistol = ExtResource("2_w16w6")
+GunCoreShotgun = ExtResource("3_rcwv1")
+GunMagazineSmall = ExtResource("6_u3067")
+GunMagazineLarge = ExtResource("7_q2d50")
+GunNozzleAccurate = ExtResource("8_378vc")
+GunNozzleSpray = ExtResource("9_mww7p")
+GunNozzleShotgun = ExtResource("10_whwi7")
 
-[node name="GunCore" parent="Gun" instance=ExtResource("4_fw1sh")]
-bullet = ExtResource("5_ii2ye")
-spread = 0
-cooldown = 0.2
-use_cooldown_sound = true
+[node name="GunCore" parent="Gun" instance=ExtResource("2_w16w6")]
 
-[node name="GunMagazine" parent="Gun" instance=ExtResource("5_l331e")]
-capacity = 10
-cooldown_mod = 1.0
+[node name="GunMagazine" parent="Gun" instance=ExtResource("6_u3067")]
 
-[node name="GunNozzle" parent="Gun" instance=ExtResource("6_85xu2")]
-bullet_count = 5
+[node name="GunNozzle" parent="Gun" instance=ExtResource("8_378vc")]
 
 [node name="SmokeGenerator" parent="Gun" instance=ExtResource("2_uahlc")]
 

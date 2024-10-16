@@ -7,6 +7,7 @@ extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 
+
 func get_input():
 	var input = Vector2()
 	if Input.is_action_pressed('move_right'):
@@ -19,7 +20,11 @@ func get_input():
 		input.y -= 1
 	return input
 
+func getDebugLabel():
+	return gun.getDebugLabel()
+
 func _process(delta):
+	
 	var mouse_pos = get_global_mouse_position()
 	if mouse_pos.x > global_position.x:
 		animated_sprite_2d.flip_h = false

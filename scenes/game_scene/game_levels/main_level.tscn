@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cwn1et87gy81h" path="res://scenes/gameplay/characters/player/player.tscn" id="1_e84nw"]
 [ext_resource type="PackedScene" uid="uid://bds4qwlp0q4ox" path="res://scenes/gameplay/game controllers/game_controller.tscn" id="2_b25db"]
-[ext_resource type="Texture2D" uid="uid://kyclahjcdkdu" path="res://assets/sprites/editor files/tileset.png" id="3_edjp8"]
+[ext_resource type="Texture2D" uid="uid://bilp55wte8kmn" path="res://assets/sprites/tileset.png" id="3_edjp8"]
 [ext_resource type="PackedScene" uid="uid://bwi541hhk6ryr" path="res://scenes/gameplay/characters/enemy/ghost_small.tscn" id="4_ulml0"]
 [ext_resource type="PackedScene" uid="uid://c8cchc2apt45e" path="res://scenes/gameplay/characters/enemy/sludge.tscn" id="5_cfnv6"]
 [ext_resource type="PackedScene" uid="uid://b7w88ir8ck65c" path="res://scenes/gameplay/characters/enemy/tribesman.tscn" id="6_xrj3v"]

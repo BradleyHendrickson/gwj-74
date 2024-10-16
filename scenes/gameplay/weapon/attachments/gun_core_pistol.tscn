@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://dr62n1n3vswk6"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_core.gd" id="1_hwjwo"]
+[ext_resource type="PackedScene" uid="uid://nnegpx04yylx" path="res://scenes/gameplay/weapon/bullet.tscn" id="2_vuwrf"]
+[ext_resource type="AudioStream" uid="uid://cd0mlej8rpmku" path="res://assets/sounds/gunshot_smg_shot_4-203474.mp3" id="3_5yx7m"]
+[ext_resource type="AudioStream" uid="uid://dbca78hnh2com" path="res://assets/sounds/shotgun_reload.wav" id="4_1rmom"]
+
+[node name="GunCore" type="Node2D"]
+script = ExtResource("1_hwjwo")
+bullet = ExtResource("2_vuwrf")
+cooldown = 0.2
+
+[node name="ShootSound1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_5yx7m")
+
+[node name="CooldownSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_1rmom")
+volume_db = -2.0
+pitch_scale = 1.2

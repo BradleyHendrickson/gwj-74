@@ -7,6 +7,9 @@ extends Node2D
 @export var cooldown = 0.08
 @export var use_cooldown_sound = false
 
+func destroy():
+	queue_free()
+
 func shootSound():
 	shoot_sound_1.play()
 
