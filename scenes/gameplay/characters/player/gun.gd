@@ -102,6 +102,8 @@ func getDebugLabel():
 	var actual_spread = str(getSpread())
 
 	return """	
+				Use (J, K, L, ") to swap components
+	
 				Core: %s
 				Magazine: %s
 				Nozzle: %s
