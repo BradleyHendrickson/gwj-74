@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bilp55wte8kmn" path="res://assets/sprites/tileset.png" id="3_edjp8"]
 [ext_resource type="PackedScene" uid="uid://bwi541hhk6ryr" path="res://scenes/gameplay/characters/enemy/ghost_small.tscn" id="4_ulml0"]
 [ext_resource type="PackedScene" uid="uid://c8cchc2apt45e" path="res://scenes/gameplay/characters/enemy/sludge.tscn" id="5_cfnv6"]
-[ext_resource type="PackedScene" uid="uid://b7w88ir8ck65c" path="res://scenes/gameplay/characters/enemy/tribesman.tscn" id="6_xrj3v"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/characters/enemy/tribesman.tscn" id="6_xrj3v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_djtl6"]
 texture = ExtResource("3_edjp8")

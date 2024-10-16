@@ -704,6 +704,7 @@ script = ExtResource("1_2aebs")
 texture_filter = 1
 position = Vector2(1, -5)
 sprite_frames = SubResource("SpriteFrames_d4han")
+autoplay = "default"
 frame_progress = 0.743217
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

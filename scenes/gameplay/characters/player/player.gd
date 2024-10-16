@@ -25,6 +25,8 @@ func getDebugLabel():
 
 func _process(delta):
 	
+	animated_sprite_2d.speed_scale = (abs(velocity.length())/speed) * 1.2
+	
 	var mouse_pos = get_global_mouse_position()
 	if mouse_pos.x > global_position.x:
 		animated_sprite_2d.flip_h = false
