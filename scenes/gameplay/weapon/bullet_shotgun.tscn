@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://fx18jf34hdoj"]
 
-[ext_resource type="Script" path="res://scenes/gameplay/weapon/bullet.gd" id="1_uhm7b"]
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/bullet_shotgun.gd" id="1_2lour"]
 [ext_resource type="Texture2D" uid="uid://bshwvhciid4gs" path="res://assets/sprites/bullet_shotgun.png" id="2_2imi4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bqbex"]
@@ -9,7 +9,7 @@ size = Vector2(7, 10)
 [node name="BulletShotgun" type="Area2D"]
 collision_layer = 8
 collision_mask = 5
-script = ExtResource("1_uhm7b")
+script = ExtResource("1_2lour")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-6, 0)

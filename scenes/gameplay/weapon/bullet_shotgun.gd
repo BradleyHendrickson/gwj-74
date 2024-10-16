@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var friction = 700	
-@export var speed = 300	
+@export var speed = 500
 @export var damage = 1
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
@@ -22,8 +22,8 @@ func die():
 	#f.position = position
 	queue_free()
 
-#func _ready() -> void:
-	#speed = speed * randf_range(0.7,1.1)
+func _ready() -> void:
+	speed = speed * randf_range(0.7,1.1)
 
 func _physics_process(delta):
 	
@@ -31,14 +31,14 @@ func _physics_process(delta):
 	if timer.is_stopped():
 		die()
 
-	#sprite_2d.scale = Vector2(1 + ((speed/500) * 1.5), 1)
+	sprite_2d.scale = Vector2(1 + ((speed/500) * 1.5), 1)
 
-	#speed = speed - friction * delta
-	#if speed < 0:
-	#	speed = 0
+	speed = speed - friction * delta
+	if speed < 0:
+		speed = 0
 	
-	#if speed == 0:
-	#	destroy()
+	if speed == 0:
+		destroy()
 
 	position += transform.x * speed * delta
 	
