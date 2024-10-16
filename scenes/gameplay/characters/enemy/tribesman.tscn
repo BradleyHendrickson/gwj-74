@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7w88ir8ck65c"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/characters/enemy/ghost_small.gd" id="1_cqlxj"]
+
+[node name="Tribesman" type="CharacterBody2D"]
+script = ExtResource("1_cqlxj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="closer" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="closer"]
+
+[node name="Area2D2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]

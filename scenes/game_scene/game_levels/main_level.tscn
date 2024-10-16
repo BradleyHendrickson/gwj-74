@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=4 uid="uid://df7kmd4p6bjkw"]
+[gd_scene load_steps=9 format=4 uid="uid://df7kmd4p6bjkw"]
 
 [ext_resource type="PackedScene" uid="uid://cwn1et87gy81h" path="res://scenes/gameplay/characters/player/player.tscn" id="1_e84nw"]
 [ext_resource type="PackedScene" uid="uid://bds4qwlp0q4ox" path="res://scenes/gameplay/game controllers/game_controller.tscn" id="2_b25db"]
 [ext_resource type="Texture2D" uid="uid://kyclahjcdkdu" path="res://assets/sprites/editor files/tileset.png" id="3_edjp8"]
 [ext_resource type="PackedScene" uid="uid://bwi541hhk6ryr" path="res://scenes/gameplay/characters/enemy/ghost_small.tscn" id="4_ulml0"]
 [ext_resource type="PackedScene" uid="uid://c8cchc2apt45e" path="res://scenes/gameplay/characters/enemy/sludge.tscn" id="5_cfnv6"]
+[ext_resource type="PackedScene" uid="uid://b7w88ir8ck65c" path="res://scenes/gameplay/characters/enemy/tribesman.tscn" id="6_xrj3v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_djtl6"]
 texture = ExtResource("3_edjp8")
@@ -133,7 +134,8 @@ texture = ExtResource("3_edjp8")
 15:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 15:5/0 = 0
 15:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-6:6/0 = 0
+6:5/0 = 0
+6:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_kbjyu"]
 physics_layer_0/collision_layer = 1
@@ -155,7 +157,7 @@ tile_set = SubResource("TileSet_kbjyu")
 
 [node name="Walls" type="TileMapLayer" parent="GameController/Layers"]
 z_index = -9
-tile_map_data = PackedByteArray("AAD+/wIAAQALAAUAAAD///7/AQAMAAEAAAD//wIAAQAMAAUAAAAAAP7/AQANAAEAAAABAP7/AQAOAAEAAAABAAIAAQAOAAUAAAACAAIAAQAPAAUAAAD3//X/AQABAAMAAAD4//X/AQABAAMAAAD5//X/AQABAAMAAAD6//X/AQABAAMAAAD7//X/AQABAAMAAAD8//X/AQABAAMAAAD9//X/AQABAAMAAAD+//X/AQABAAMAAAD///X/AQABAAMAAAAAAPX/AQABAAMAAAABAPX/AQABAAMAAAACAPX/AQABAAMAAAADAPX/AQABAAMAAAAEAPX/AQABAAMAAAAFAPX/AQABAAMAAAAGAPX/AQABAAMAAAAHAPX/AQABAAMAAAAIAPX/AQABAAMAAAAJAPX/AQABAAMAAAAKAPX/AQABAAMAAAALAPX/AQABAAMAAAAMAPX/AQABAAMAAAANAPX/AQABAAMAAAAOAPX/AQABAAMAAAAPAPX/AQABAAMAAAAQAPX/AQABAAMAAAARAPX/AQABAAMAAAASAPX/AQABAAMAAAATAPX/AQABAAMAAAD2//X/AQABAAMAAAD1//X/AQABAAMAAAD0//X/AQABAAMAAADz//X/AQABAAMAAADy//X/AQABAAMAAADx//X/AQABAAMAAADw//X/AQABAAMAAADv//X/AQABAAMAAADu//X/AQABAAMAAADt//X/AQABAAMAAADs//X/AQABAAMAAAD9/wYAAQAGAAEAAAD+/wYAAQAHAAEAAAD//wYAAQAHAAEAAAAAAAYAAQAHAAEAAAABAAYAAQAHAAEAAAACAAYAAQAHAAEAAAADAAYAAQAIAAEAAAD5/wEAAQABAAwAAAD5/wAAAQABAAwAAAAAAAQAAQABAAwAAAAHAAEAAQABAAwAAAAFAPv/AQABAAwAAAAAAPr/AQABAAwAAAD9//r/AQABAAwAAAD8/wEAAQABAAwAAAD2/wQAAQABAAwAAAA=")
+tile_map_data = PackedByteArray("AAD+/wIAAQALAAUAAAD///7/AQAMAAEAAAD//wIAAQAMAAUAAAAAAP7/AQANAAEAAAABAP7/AQAOAAEAAAABAAIAAQAOAAUAAAACAAIAAQAPAAUAAAD3//X/AQABAAMAAAD4//X/AQABAAMAAAD5//X/AQABAAMAAAD6//X/AQABAAMAAAD7//X/AQABAAMAAAD8//X/AQABAAMAAAD9//X/AQABAAMAAAD+//X/AQABAAMAAAD///X/AQABAAMAAAAAAPX/AQABAAMAAAABAPX/AQABAAMAAAACAPX/AQABAAMAAAADAPX/AQABAAMAAAAEAPX/AQABAAMAAAAFAPX/AQABAAMAAAAGAPX/AQABAAMAAAAHAPX/AQABAAMAAAAIAPX/AQABAAMAAAAJAPX/AQABAAMAAAAKAPX/AQABAAMAAAALAPX/AQABAAMAAAAMAPX/AQABAAMAAAANAPX/AQABAAMAAAAOAPX/AQABAAMAAAAPAPX/AQABAAMAAAAQAPX/AQABAAMAAAARAPX/AQABAAMAAAASAPX/AQABAAMAAAATAPX/AQABAAMAAAD2//X/AQABAAMAAAD1//X/AQABAAMAAAD0//X/AQABAAMAAADz//X/AQABAAMAAADy//X/AQABAAMAAADx//X/AQABAAMAAADw//X/AQABAAMAAADv//X/AQABAAMAAADu//X/AQABAAMAAADt//X/AQABAAMAAADs//X/AQABAAMAAAD9/wYAAQAGAAEAAAD+/wYAAQAHAAEAAAD//wYAAQAHAAEAAAAAAAYAAQAHAAEAAAABAAYAAQAHAAEAAAACAAYAAQAHAAEAAAADAAYAAQAIAAEAAAD5/wEAAQABAAwAAAD5/wAAAQABAAwAAAAAAAQAAQABAAwAAAAHAAEAAQABAAwAAAAFAPv/AQABAAwAAAAAAPr/AQABAAwAAAD9//r/AQABAAwAAAD8/wEAAQABAAwAAAD2/wQAAQABAAwAAAAUAAsAAQAGAAUAAAAUAPT/AQAGAAUAAADr//T/AQAGAAUAAADr/wsAAQAGAAUAAAA=")
 tile_set = SubResource("TileSet_kbjyu")
 
 [node name="Tops" type="TileMapLayer" parent="GameController/Layers"]
@@ -174,3 +176,5 @@ position = Vector2(-144, -34)
 
 [node name="Sludge" parent="GameController" instance=ExtResource("5_cfnv6")]
 position = Vector2(-106, 73)
+
+[node name="Tribesman" parent="GameController" instance=ExtResource("6_xrj3v")]
