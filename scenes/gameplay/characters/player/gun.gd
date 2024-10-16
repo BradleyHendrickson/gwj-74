@@ -22,14 +22,16 @@ extends Node2D
 @export var GunCoreShotgun : PackedScene
 
 @export var GunMagazineSmall : PackedScene
-@export var GunMagazineLargeAuto : PackedScene
+@export var GunMagazineLarge : PackedScene
 
 @export var GunNozzleAccurate : PackedScene
 @export var GunNozzleSpray : PackedScene
+@export var GunNozzleShotgun : PackedScene
 
 @export var currGunCore = 'pistol'
 @export var currGunMagazine = 'small'
 @export var currGunNozzle = 'accurate'
+
 
 @onready var shoot_sound_1: AudioStreamPlayer2D = $ShootSound1
 
@@ -43,12 +45,12 @@ var MUZZLE_DISTANCE = 22
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	ammo = gun_magazine.capacity 
-	auto = gun_magazine.auto
+	auto = false
 	uses_ammo = gun_magazine.uses_ammo
 	pass # Replace with function body.
 
 func isAuto():
-	return gun_magazine.auto
+	return auto
 
 func getCooldownTime():
 	return gun_core.cooldown * gun_magazine.cooldown_mod * gun_nozzle.cooldown_mod
@@ -56,20 +58,21 @@ func getCooldownTime():
 func getReloadTime():
 	return 0.2222 * gun_magazine.reload_time_mod
 
+func getSpread():
+	return gun_core.spread * gun_nozzle.spread_mod
+	
 func shoot():
 	if (ammo > 0 or !uses_ammo) && reload_timer.is_stopped() && cooldown_timer.is_stopped() and !isReloading():
 		ammo -= 1
 		cooldown_timer.start(getCooldownTime())
 		#animated_sprite_2d.play("shoot")
 		
-		smoke_generator.smoke_direction_spread(smoke_amount, rotation, gun_core.spread, MUZZLE_DISTANCE)	
+		smoke_generator.smoke_direction_spread(smoke_amount, rotation, getSpread(), MUZZLE_DISTANCE)	
 		shoot_sound_1.pitch_scale = 1 + randf_range(-0.05,0.05)
 		shoot_sound_1.play()
 		
 		for i in gun_nozzle.bullet_count:
-			
-			var actualSpread = gun_core.spread * gun_nozzle.spread_mod
-			
+			var actualSpread = getSpread()
 			var rand_dir = randf_range(-deg_to_rad(actualSpread), deg_to_rad(actualSpread))
 			var new_bullet = gun_core.bullet.instantiate()
 			get_tree().root.add_child(new_bullet)
@@ -93,7 +96,28 @@ func reload():
 		ammo = gun_magazine.capacity
 
 func getDebugLabel():
-	return currGunCore + "\n" + currGunMagazine + ": " + str(gun_magazine.auto) + "\n" + currGunNozzle
+	var is_auto = str(isAuto())
+	var cool_time = str(getCooldownTime())
+	var reload_time = str(getReloadTime())
+	var actual_spread = str(getSpread())
+
+	return """	
+				Core: %s
+				Magazine: %s
+				Nozzle: %s
+				Auto: %s
+
+				[Current Build Stats]
+				Cooldown: %s * %s * %s = %s
+				Reload Time: 0.2222 * %s = %s
+				Spread: %s * %s = %s
+				
+				""" % [
+						currGunCore, currGunMagazine, currGunNozzle, str(auto),
+						gun_core.cooldown , gun_magazine.cooldown_mod , gun_nozzle.cooldown_mod ,
+						cool_time, gun_magazine.reload_time_mod ,reload_time, gun_core.spread , gun_nozzle.spread_mod, actual_spread
+						
+	]
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -117,10 +141,10 @@ func _process(delta: float) -> void:
 		print(currGunMagazine)
 		if currGunMagazine == 'small':
 			gun_magazine.queue_free()
-			var newGunMagazine = GunMagazineLargeAuto.instantiate()
+			var newGunMagazine = GunMagazineLarge.instantiate()
 			gun_magazine = newGunMagazine
-			currGunMagazine = 'largeauto'
-		elif currGunMagazine == 'largeauto':
+			currGunMagazine = 'large'
+		elif currGunMagazine == 'large':
 			gun_magazine.queue_free()
 			var newGunMagazine = GunMagazineSmall.instantiate()
 			gun_magazine = newGunMagazine
@@ -135,9 +159,17 @@ func _process(delta: float) -> void:
 			currGunNozzle = 'spray'
 		elif currGunNozzle == 'spray':
 			gun_nozzle.queue_free()
+			var newGunNozzle = GunNozzleShotgun.instantiate()
+			gun_nozzle = newGunNozzle
+			currGunNozzle= 'shotgun'
+		elif currGunNozzle == 'shotgun':
+			gun_nozzle.queue_free()
 			var newGunNozzle = GunNozzleAccurate.instantiate()
 			gun_nozzle = newGunNozzle
 			currGunNozzle= 'accurate'
+			
+	if Input.is_action_just_pressed("debug_swap_auto"):
+		auto = !auto
 	
 	if !was_stopped and cooldown_timer.is_stopped():
 		gun_core.cooldownSound()

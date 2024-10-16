@@ -11,9 +11,14 @@ extends Node2D
 var target_camera_position = Vector2(0,0)
 @export var follow_smoothing = 8
 
+@onready var debug_label: Label = $CanvasLayer/Control/DebugLabel
+
 func _ready() -> void:
 	game_music.play()
 	#game_ui.setHealth(health)
+
+func _process(delta):
+	debug_label.text = player.getDebugLabel()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:

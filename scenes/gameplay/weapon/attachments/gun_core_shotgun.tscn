@@ -8,8 +8,8 @@
 [node name="GunCore" type="Node2D"]
 script = ExtResource("1_oltfu")
 bullet = ExtResource("2_88h0b")
-spread = 15
-cooldown = 0.2
+spread = 8
+cooldown = 0.1
 
 [node name="ShootSound1" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_j4m54")

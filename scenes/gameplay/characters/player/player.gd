@@ -5,7 +5,6 @@ extends CharacterBody2D
 @export var acceleration = 0.3
 @onready var gun: Node2D = $Gun
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var label: Label = $Label
 
 
 
@@ -21,9 +20,10 @@ func get_input():
 		input.y -= 1
 	return input
 
+func getDebugLabel():
+	return gun.getDebugLabel()
+
 func _process(delta):
-	
-	label.text = gun.getDebugLabel()
 	
 	var mouse_pos = get_global_mouse_position()
 	if mouse_pos.x > global_position.x:

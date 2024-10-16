@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var friction = 700	
-@export var speed = 300	
+@export var speed = 400	
 @export var damage = 1
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
