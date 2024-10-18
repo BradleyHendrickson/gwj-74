@@ -173,3 +173,4 @@ tile_map_data = PackedByteArray("AADE//X/AQABAAEAAADE//b/AQACAAEAAADE//f/AQACAAE
 tile_set = SubResource("TileSet_kbjyu")
 
 [node name="Tribesman" parent="GameController" instance=ExtResource("6_xrj3v")]
+position = Vector2(-91, -40)

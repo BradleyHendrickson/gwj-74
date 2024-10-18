@@ -1,18 +1,174 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7w88ir8ck65c"]
+[gd_scene load_steps=24 format=3 uid="uid://b7w88ir8ck65c"]
 
-[ext_resource type="Script" path="res://scenes/gameplay/characters/enemy/ghost_small.gd" id="1_cqlxj"]
+[ext_resource type="Script" path="res://scenes/gameplay/characters/enemy/tribesman.gd" id="1_tjm5n"]
+[ext_resource type="PackedScene" uid="uid://dn6dkghyx5fp" path="res://scenes/gameplay/effects/smoke_generator.tscn" id="2_mre5o"]
+[ext_resource type="Texture2D" uid="uid://xpr4u0w271wg" path="res://assets/sprites/Tribesman-Sheet-Sheet.png" id="2_v6q28"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ntrh"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m8t6d"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dy80m"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5l7ic"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o3lrs"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_df01p"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(160, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_piqi2"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(192, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_653nu"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(224, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cqiiy"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_boebd"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ycooc"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpd3u"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8pey"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a34on"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bn1yy"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s028m"]
+atlas = ExtResource("2_v6q28")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tomvf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ntrh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m8t6d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dy80m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5l7ic")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o3lrs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_df01p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_piqi2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_653nu")
+}],
+"loop": true,
+"name": &"Attack",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cqiiy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_boebd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ycooc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpd3u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8pey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a34on")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bn1yy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s028m")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_upmhr"]
+size = Vector2(11, 25)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w2tyc"]
+radius = 205.156
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u2wkj"]
+radius = 113.004
 
 [node name="Tribesman" type="CharacterBody2D"]
-script = ExtResource("1_cqlxj")
+script = ExtResource("1_tjm5n")
+
+[node name="SmokeGenerator" parent="." instance=ExtResource("2_mre5o")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tomvf")
+frame_progress = 0.116776
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-0.5, 3.5)
+shape = SubResource("RectangleShape2D_upmhr")
 
-[node name="closer" type="Area2D" parent="."]
+[node name="Maxrange" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="closer"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Maxrange"]
+shape = SubResource("CircleShape2D_w2tyc")
+one_way_collision_margin = 0.0
 
-[node name="Area2D2" type="Area2D" parent="."]
+[node name="Minrange" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Minrange"]
+shape = SubResource("CircleShape2D_u2wkj")
+debug_color = Color(0.915245, 0.234477, 0.437462, 0.42)
+
+[connection signal="area_shape_entered" from="Maxrange" to="." method="_on_maxrange_area_shape_entered"]
+[connection signal="area_shape_exited" from="Maxrange" to="." method="_on_maxrange_area_shape_exited"]
+[connection signal="body_entered" from="Maxrange" to="." method="_on_maxrange_body_entered"]
+[connection signal="body_exited" from="Maxrange" to="." method="_on_maxrange_body_exited"]
