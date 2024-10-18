@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfx65l404vcx2"]
+
+[ext_resource type="Texture2D" uid="uid://ceg4i13n845cr" path="res://assets/sprites/locked_door.png" id="1_ajjp2"]
+[ext_resource type="Script" path="res://scenes/gameplay/level/locked_door.gd" id="1_i3xla"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rdv7o"]
+size = Vector2(32, 32)
+
+[node name="LockedDoor" type="StaticBody2D"]
+script = ExtResource("1_i3xla")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ajjp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rdv7o")

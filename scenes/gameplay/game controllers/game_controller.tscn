@@ -1,14 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://bds4qwlp0q4ox"]
+[gd_scene load_steps=9 format=3 uid="uid://bds4qwlp0q4ox"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/game controllers/game_controller.gd" id="1_ors37"]
+[ext_resource type="PackedScene" uid="uid://cwn1et87gy81h" path="res://scenes/gameplay/characters/player/player.tscn" id="2_454ws"]
+[ext_resource type="PackedScene" uid="uid://bfx65l404vcx2" path="res://scenes/gameplay/level/locked_door.tscn" id="2_lgqgq"]
 [ext_resource type="AudioStream" uid="uid://jlt34qn076h2" path="res://assets/sounds/ghost-of-caesar-20353.mp3" id="2_qr823"]
+[ext_resource type="Texture2D" uid="uid://de0rtcmxgi80x" path="res://assets/sprites/vignette.png" id="2_txndp"]
+[ext_resource type="LabelSettings" uid="uid://cbpt7uwkg4pae" path="res://scenes/gameplay/game controllers/DebugLabelSettings.tres" id="4_bo66v"]
+[ext_resource type="PackedScene" uid="uid://bwi541hhk6ryr" path="res://scenes/gameplay/characters/enemy/ghost_small.tscn" id="4_ppoda"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_goohk"]
-font_size = 24
-shadow_size = 0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cb1me"]
 
 [node name="GameController" type="Node2D"]
 script = ExtResource("1_ors37")
+playerObject = ExtResource("2_454ws")
+LockedDoor = ExtResource("2_lgqgq")
+SmallGhost = ExtResource("4_ppoda")
+
+[node name="Vignette" type="Sprite2D" parent="."]
+visible = false
+z_index = 100
+texture = ExtResource("2_txndp")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
@@ -31,4 +42,41 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 16.0
-label_settings = SubResource("LabelSettings_goohk")
+label_settings = ExtResource("4_bo66v")
+
+[node name="RoomInfoLabel" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 32.0
+anchor_bottom = 17.6
+offset_left = 1008.0
+offset_top = 16.0
+offset_right = -8.0
+offset_bottom = -640.0
+label_settings = ExtResource("4_bo66v")
+horizontal_alignment = 2
+
+[node name="WaveTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 1, 0.286275)
+
+[node name="EnteredRoomTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_cb1me")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

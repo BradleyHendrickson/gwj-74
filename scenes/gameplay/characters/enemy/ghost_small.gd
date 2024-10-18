@@ -3,13 +3,16 @@ extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var smoke_generator: Node2D = $SmokeGenerator
 
-@export var speed = 50
+@export var speed = 50#50
 const JUMP_VELOCITY = -400.0
 @export var health = 5
 
 @onready var targets: Array
 
+signal death
+
 func die():
+	emit_signal("death")
 	smoke_generator.smoke(4)
 	print("good")
 	queue_free()

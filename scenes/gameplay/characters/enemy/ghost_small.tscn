@@ -30,12 +30,13 @@ animations = [{
 size = Vector2(12, 10)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_irilg"]
-radius = 494.328
+radius = 704.284
 
 [node name="GhostSmall" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_hjmqh")
+health = 2
 
 [node name="SmokeGenerator" parent="." instance=ExtResource("2_1v4g7")]
 
