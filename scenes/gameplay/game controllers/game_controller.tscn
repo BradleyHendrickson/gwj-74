@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bds4qwlp0q4ox"]
+[gd_scene load_steps=11 format=3 uid="uid://bds4qwlp0q4ox"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/game controllers/game_controller.gd" id="1_ors37"]
 [ext_resource type="PackedScene" uid="uid://cwn1et87gy81h" path="res://scenes/gameplay/characters/player/player.tscn" id="2_454ws"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://de0rtcmxgi80x" path="res://assets/sprites/vignette.png" id="2_txndp"]
 [ext_resource type="LabelSettings" uid="uid://cbpt7uwkg4pae" path="res://scenes/gameplay/game controllers/DebugLabelSettings.tres" id="4_bo66v"]
 [ext_resource type="PackedScene" uid="uid://bwi541hhk6ryr" path="res://scenes/gameplay/characters/enemy/ghost_small.tscn" id="4_ppoda"]
+[ext_resource type="AudioStream" uid="uid://cvj6mw58e0ugh" path="res://assets/sounds/door_slam.wav" id="8_ns2qr"]
+[ext_resource type="AudioStream" uid="uid://od3jlhbp1cch" path="res://assets/sounds/old_church_bell.mp3" id="9_r106d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cb1me"]
 
@@ -78,5 +80,17 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_cb1me")
 
+[node name="SoundDoorClose" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_ns2qr")
+volume_db = 4.0
+
+[node name="SoundDoorOpen" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_r106d")
+volume_db = 6.0
+
+[node name="WaveEndTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="WaveEndTimer" to="." method="_on_wave_end_timer_timeout"]

@@ -28,8 +28,11 @@ var target_camera_position = Vector2(0,0)
 @export var SmallGhost : PackedScene
 @onready var collision_shape_2d: CollisionShape2D = $Area2D/CollisionShape2D
 @onready var area_2d: Area2D = $Area2D
+@onready var sound_door_open: AudioStreamPlayer2D = $SoundDoorOpen
+@onready var sound_door_close: AudioStreamPlayer2D = $SoundDoorClose
 
 @onready var color_rect: ColorRect = $ColorRect
+@onready var wave_end_timer: Timer = $WaveEndTimer
 
 var targets : Array = []
 
@@ -40,6 +43,8 @@ var enemies : Array = []
 var in_room = Vector2(0,0)
 var room_finished : bool = true
 var doors : Array = []
+
+var end_room_center = Vector2(0,0)
 
 func get_room_center(player_position : Vector2) -> Vector2:
 	var room_x = floor(player_position.x / RoomWidth) * RoomWidth 
@@ -52,7 +57,7 @@ func _ready() -> void:
 	#game_ui.setHealth(health)
 
 func entered_room(room_center : Vector2):
-	
+	sound_door_close.play()
 	area_2d.monitoring= false
 	targets = []
 
@@ -80,7 +85,12 @@ func entered_room(room_center : Vector2):
 	#start the timer!
 	wave_timer.start(5)
 	
-func wave_end(room_center: Vector2):
+func _on_wave_end_timer_timeout() -> void:
+	print('TIME')
+	do_wave_end(end_room_center)
+	
+func do_wave_end(room_center: Vector2):
+	sound_door_open.play()
 	reset_collision = false
 	room_finished = true
 	print("yay you killed 'em all")
@@ -88,6 +98,12 @@ func wave_end(room_center: Vector2):
 	for door in doors.duplicate():
 		doors.erase(door)
 		door.queue_free()
+	
+func wave_end(room_center: Vector2):
+	if wave_end_timer.is_stopped():
+		end_room_center = room_center
+		print('starting wave end timer')
+		wave_end_timer.start(1)
 	
 func wave_actions(room_center: Vector2):
 	if enemy_spawn_timer.is_stopped():
