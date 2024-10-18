@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://bpe4uxxwth5ie"]
+
+[ext_resource type="Texture2D" uid="uid://xjq2dum2cvv7" path="res://assets/sprites/shop_stairs.png" id="1_4xqua"]
+[ext_resource type="Script" path="res://scenes/gameplay/level/shop_trap_door.gd" id="1_ecykg"]
+[ext_resource type="AudioStream" uid="uid://rsbm3yclerlp" path="res://assets/sounds/trapdoor_open.wav" id="2_vni7d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q13nu"]
+atlas = ExtResource("1_4xqua")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_grkcq"]
+atlas = ExtResource("1_4xqua")
+region = Rect2(64, 0, 64, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rddf6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q13nu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_grkcq")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ywgia"]
+
+[node name="ShopTrapDoor" type="Node2D"]
+z_index = -10
+script = ExtResource("1_ecykg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 16)
+sprite_frames = SubResource("SpriteFrames_rddf6")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_ywgia")
+
+[node name="Open" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_vni7d")

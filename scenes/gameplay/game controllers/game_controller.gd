@@ -33,6 +33,8 @@ var target_camera_position = Vector2(0,0)
 
 @onready var color_rect: ColorRect = $ColorRect
 @onready var wave_end_timer: Timer = $WaveEndTimer
+@onready var sound_wave_finished_bell: AudioStreamPlayer2D = $SoundWaveFinishedBell
+@onready var wave_finished_sound_timer: Timer = $WaveFinishedSoundTimer
 
 var targets : Array = []
 
@@ -85,6 +87,9 @@ func entered_room(room_center : Vector2):
 	#start the timer!
 	wave_timer.start(5)
 	
+func _on_wave_finished_sound_timer_timeout() -> void:
+	sound_wave_finished_bell.play()
+	
 func _on_wave_end_timer_timeout() -> void:
 	print('TIME')
 	do_wave_end(end_room_center)
@@ -103,7 +108,8 @@ func wave_end(room_center: Vector2):
 	if wave_end_timer.is_stopped():
 		end_room_center = room_center
 		print('starting wave end timer')
-		wave_end_timer.start(1)
+		wave_finished_sound_timer.start(0.6)
+		wave_end_timer.start(1.8)
 	
 func wave_actions(room_center: Vector2):
 	if enemy_spawn_timer.is_stopped():
