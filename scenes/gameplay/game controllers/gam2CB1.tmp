@@ -18,7 +18,11 @@
 
 [node name="GameController" type="Node2D" groups=["gamecontroller"]]
 script = ExtResource("1_ors37")
+health = null
+RoomHeight = null
+RoomWidth = null
 playerObject = ExtResource("2_454ws")
+follow_smoothing = null
 LockedDoor = ExtResource("2_lgqgq")
 SmallGhost = ExtResource("4_ppoda")
 
@@ -119,7 +123,6 @@ grow_vertical = 2
 one_shot = true
 
 [node name="ExitShopTimer" type="Timer" parent="."]
-one_shot = true
 
 [node name="SoundTrapdoorClose" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("13_lm15b")

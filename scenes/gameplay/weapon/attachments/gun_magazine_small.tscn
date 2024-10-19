@@ -6,3 +6,5 @@
 script = ExtResource("1_oxqpw")
 cooldown_mod = 0.5
 reload_time_mod = 0.8
+part_name = "Small Magazine"
+part_description = "holds a couple bullets"

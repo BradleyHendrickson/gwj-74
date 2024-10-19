@@ -39,11 +39,24 @@ var target_camera_position = Vector2(0,0)
 @onready var sound_stairs_down: AudioStreamPlayer2D = $SoundStairsDown
 @onready var shop_canvas_layer: CanvasLayer = $ShopCanvasLayer
 @onready var enter_shop_timer: Timer = $EnterShopTimer
+@onready var exit_shop_timer: Timer = $ExitShopTimer
+@onready var sound_go_upstairs: AudioStreamPlayer2D = $SoundGoUpstairs
+@onready var sound_trapdoor_close: AudioStreamPlayer2D = $SoundTrapdoorClose
 
 var shop_active = false
 
 func shopTransitionIn():
 	enter_shop_timer.start(1)
+	
+func shopTransitionOut():
+	sound_go_upstairs.play()
+	exit_shop_timer.start(1)
+
+func _on_exit_shop_timer_timeout() -> void:
+	deactivateShop()
+	sound_trapdoor_close.play()
+	player.unpause()
+
 
 func _on_enter_shop_timer_timeout() -> void:
 	activateShop()
@@ -148,7 +161,8 @@ func _on_wave_end_timer_timeout() -> void:
 	do_wave_end(end_room_center)
 	
 func _on_trapdoor_timer_timeout() -> void:
-	trigger_all_trapdoors(true)
+	if room_finished:
+		trigger_all_trapdoors(true)
 
 func do_wave_end(room_center: Vector2):
 	sound_door_open.play()

@@ -6,3 +6,5 @@
 script = ExtResource("1_n3egb")
 spread_mod = 2.0
 cooldown_mod = 0.5
+part_name = "SMG Muzzle"
+part_description = "inaccurate, but fast"
