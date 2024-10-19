@@ -10,10 +10,12 @@ func playtopclose():
 	$AnimatedSprite2D.play("Topclose")
 	
 func playside():
-	$AnimatedSprite2D.play("Sideclose")
-
+	$AnimatedSprite2D.play("Side")
+	collision_shape_2d.disabled = true
+	
 func playtop():
-	$AnimatedSprite2D.play("Topclose")
+	$AnimatedSprite2D.play("Top")
+	collision_shape_2d.disabled = true
 	
 func setAnimation(animation):
 	animated_sprite_2d.animation = animation

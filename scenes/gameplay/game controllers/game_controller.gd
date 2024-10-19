@@ -126,6 +126,10 @@ func _ready() -> void:
 	#game_ui.setHealth(health)
 
 func entered_room(room_center : Vector2):
+	door_close()
+	for door in doors.duplicate():
+		doors.erase(door)
+		door.queue_free()
 	trigger_all_trapdoors(false)
 	sound_door_close.play()
 	area_2d.monitoring= false
@@ -178,9 +182,17 @@ func _on_wave_end_timer_timeout() -> void:
 func _on_trapdoor_timer_timeout() -> void:
 	if room_finished:
 		trigger_all_trapdoors(true)
+		
+func door_open():
+	await get_tree().create_timer(0.1).timeout
+	sound_door_open.play()
+
+func door_close():
+	await get_tree().create_timer(0.1).timeout
+	sound_door_close.play()
 
 func do_wave_end(room_center: Vector2):
-	sound_door_open.play()
+	door_open()
 	reset_collision = false
 	room_finished = true
 	print("yay you killed 'em all")
@@ -188,7 +200,29 @@ func do_wave_end(room_center: Vector2):
 	for door in doors.duplicate():
 		doors.erase(door)
 		door.queue_free()
-	
+		var d = LockedDoor.instantiate()
+		var d2 = LockedDoor.instantiate()
+		var d3 = LockedDoor.instantiate()
+		var d4 = LockedDoor.instantiate()
+		add_child(d)
+		add_child(d2)
+		add_child(d3)
+		add_child(d4)
+		d.position = room_center - Vector2(RoomWidth/2, 0) + Vector2(0,16)
+		d2.position = room_center + Vector2(RoomWidth/2, 0) + Vector2(0,16)
+		d3.position = room_center - Vector2(0, RoomHeight/2) + Vector2(0,16 - 8)
+		d4.position = room_center + Vector2(0, RoomHeight/2) + Vector2(0,16 - 8)
+		
+		d.playside()
+		d2.playside()
+		d3.playtop()
+		d4.playtop()
+		
+		doors.append(d)
+		doors.append(d2)
+		doors.append(d3)
+		doors.append(d4)
+		
 func wave_end(room_center: Vector2):
 	if wave_end_timer.is_stopped():
 		trapdoor_timer.start(2.5)

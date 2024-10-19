@@ -77,7 +77,10 @@ func shoot():
 			var new_bullet = gun_core.bullet.instantiate()
 			get_tree().root.add_child(new_bullet)
 			new_bullet.transform = Transform2D( rotation  - rand_dir , global_position + Vector2(MUZZLE_DISTANCE * cos(rotation), MUZZLE_DISTANCE * sin(rotation)))
-			
+	else:
+		reload_start.pitch_scale = 3
+		reload_start.play()
+		
 
 func isReloading():
 	if (animated_sprite_2d.animation == "spin_start" or animated_sprite_2d.animation=="spin_infinite" or animated_sprite_2d.animation=="spin_finish") and animated_sprite_2d.is_playing():
@@ -87,6 +90,7 @@ func isReloading():
 	
 func reload():
 	if !isReloading():
+		reload_start.pitch_scale = 1
 		reload_start.play()
 		#reload_finish.play()
 		animated_sprite_2d.stop()
