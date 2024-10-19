@@ -123,7 +123,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"Sideclose",
-"speed": 10.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -163,7 +163,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"Topclose",
-"speed": 10.0
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rdv7o"]
@@ -177,7 +177,7 @@ script = ExtResource("1_i3xla")
 y_sort_enabled = true
 position = Vector2(0, -10)
 sprite_frames = SubResource("SpriteFrames_i4suq")
-animation = &"Topclose"
+animation = &"Sideclose"
 autoplay = "Sideclose"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

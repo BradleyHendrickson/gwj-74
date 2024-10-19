@@ -63,15 +63,18 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_4vvsf"]
 
 [node name="SmokeParticle" type="CharacterBody2D"]
+y_sort_enabled = true
 script = ExtResource("1_4xv2u")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_f880u")
 autoplay = "default"
 frame = 6
 frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+y_sort_enabled = true
 shape = SubResource("CircleShape2D_4vvsf")
 disabled = true
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
