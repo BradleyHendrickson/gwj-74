@@ -7,3 +7,5 @@ script = ExtResource("1_yx2hh")
 capacity = 20
 cooldown_mod = 0.9
 reload_time_mod = 5.0
+part_name = "Large Magazine"
+part_description = "holds a lot of bullets"

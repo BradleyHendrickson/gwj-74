@@ -4,3 +4,5 @@
 
 [node name="GunNozzle" type="Node2D"]
 script = ExtResource("1_goqxe")
+part_name = "Accurate Muzzle"
+part_description = "shoots pretty straight"

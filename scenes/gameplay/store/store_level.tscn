@@ -1,9 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://bckio4xst1ox7"]
+[gd_scene load_steps=18 format=3 uid="uid://bckio4xst1ox7"]
 
 [ext_resource type="Texture2D" uid="uid://oia51febrndy" path="res://assets/sprites/shop.png" id="1_r6bwk"]
+[ext_resource type="Script" path="res://scenes/gameplay/store/store_level.gd" id="1_ryull"]
 [ext_resource type="Texture2D" uid="uid://bptxo5o0v0cwg" path="res://assets/sprites/shop_background.png" id="1_xp6p1"]
 [ext_resource type="Texture2D" uid="uid://bqef70no0cukp" path="res://assets/sprites/shopkeep.png" id="3_gdyve"]
 [ext_resource type="Texture2D" uid="uid://e10bert12w3e" path="res://assets/sprites/shop_foreground.png" id="4_irpwo"]
+[ext_resource type="Texture2D" uid="uid://bwb07ep17k0wn" path="res://assets/sprites/shop_gun_background.png" id="5_na7yw"]
+[ext_resource type="PackedScene" uid="uid://5rdoucxbgrj7" path="res://scenes/gameplay/store/gun_purchase.tscn" id="7_eelmg"]
+[ext_resource type="PackedScene" uid="uid://2na6gti8f304" path="res://scenes/gameplay/store/gun_config.tscn" id="8_tx8u5"]
+
+[sub_resource type="Theme" id="Theme_s8hwi"]
+default_font_size = 32
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_slb46"]
 atlas = ExtResource("3_gdyve")
@@ -64,10 +71,15 @@ animations = [{
 
 [node name="store_ui" type="Control"]
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -1280.0
 offset_bottom = -704.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_s8hwi")
+script = ExtResource("1_ryull")
 
 [node name="ShopBackground" type="Sprite2D" parent="."]
 z_index = -1
@@ -76,7 +88,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("1_xp6p1")
 
 [node name="ShopForeground" type="Sprite2D" parent="."]
-position = Vector2(640, 352)
+position = Vector2(640, 408)
 scale = Vector2(2, 2)
 texture = ExtResource("1_r6bwk")
 
@@ -89,3 +101,101 @@ sprite_frames = SubResource("SpriteFrames_wyr6u")
 position = Vector2(640, 352)
 scale = Vector2(2, 2)
 texture = ExtResource("4_irpwo")
+
+[node name="GunSprite" type="Sprite2D" parent="."]
+position = Vector2(288, 240)
+scale = Vector2(2, 2)
+texture = ExtResource("5_na7yw")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 224.0
+offset_bottom = 64.0
+text = "Back Upstairs"
+
+[node name="GunBuyer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GunPurchase12" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(1008, 448)
+
+[node name="GunPurchase11" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(896, 448)
+
+[node name="GunPurchase10" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(784, 448)
+
+[node name="GunPurchase9" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(672, 448)
+
+[node name="GunPurchase8" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(1056, 288)
+
+[node name="GunPurchase7" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(944, 288)
+
+[node name="GunPurchase6" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(832, 288)
+
+[node name="GunPurchase5" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(720, 288)
+
+[node name="GunPurchase4" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(1008, 128)
+
+[node name="GunPurchase3" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(896, 128)
+
+[node name="GunPurchase2" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(784, 128)
+
+[node name="GunPurchase" parent="GunBuyer" instance=ExtResource("7_eelmg")]
+position = Vector2(672, 128)
+
+[node name="GunModder" type="Control" parent="."]
+anchors_preset = 0
+
+[node name="GunCoreConfig" parent="GunModder" instance=ExtResource("8_tx8u5")]
+position = Vector2(160, 176)
+
+[node name="AttachmentSprite" type="Sprite2D" parent="GunModder/GunCoreConfig"]
+scale = Vector2(4, 4)
+
+[node name="GunMagazineConfig" parent="GunModder" instance=ExtResource("8_tx8u5")]
+position = Vector2(272, 176)
+
+[node name="AttachmentSprite" type="Sprite2D" parent="GunModder/GunMagazineConfig"]
+scale = Vector2(2, 2)
+
+[node name="GunNozzleConfig" parent="GunModder" instance=ExtResource("8_tx8u5")]
+position = Vector2(384, 176)
+
+[node name="AttachmentSprite" type="Sprite2D" parent="GunModder/GunNozzleConfig"]
+scale = Vector2(2, 2)
+
+[node name="GunAttachment1Config2" parent="GunModder" instance=ExtResource("8_tx8u5")]
+position = Vector2(336, 288)
+
+[node name="AttachmentSprite" type="Sprite2D" parent="GunModder/GunAttachment1Config2"]
+position = Vector2(-40, 28)
+scale = Vector2(0.5, 0.5)
+
+[node name="GunAttachment1Config" parent="GunModder" instance=ExtResource("8_tx8u5")]
+position = Vector2(224, 288)
+
+[node name="AttachmentSprite" type="Sprite2D" parent="GunModder/GunAttachment1Config"]
+position = Vector2(-40, 28)
+scale = Vector2(0.5, 0.5)
+
+[node name="MouseToolTip" type="Label" parent="."]
+layout_mode = 0
+offset_left = 384.0
+offset_top = 384.0
+offset_right = 576.0
+offset_bottom = 544.0
+
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]

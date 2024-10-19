@@ -9,6 +9,8 @@
 script = ExtResource("1_hwjwo")
 bullet = ExtResource("2_vuwrf")
 cooldown = 0.2
+part_name = "Pistol Core"
+part_description = "shoots pistol bullets"
 
 [node name="ShootSound1" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_5yx7m")

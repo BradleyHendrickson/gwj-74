@@ -3,7 +3,9 @@ extends Node2D
 @export var bullet_count = 1.00
 @export var spread_mod = 1.00
 @export var cooldown_mod = 1.00
-# shotgun
+@export var part_name = ""
+@export var part_description = ""
+
 
 func destroy():
 	queue_free()
