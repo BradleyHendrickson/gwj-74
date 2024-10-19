@@ -131,7 +131,6 @@ func entered_room(room_center : Vector2):
 		doors.erase(door)
 		door.queue_free()
 	trigger_all_trapdoors(false)
-	sound_door_close.play()
 	area_2d.monitoring= false
 	targets = []
 
