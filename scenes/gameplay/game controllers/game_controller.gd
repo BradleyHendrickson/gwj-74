@@ -142,10 +142,23 @@ func entered_room(room_center : Vector2):
 	add_child(d2)
 	add_child(d3)
 	add_child(d4)
-	d.position = room_center - Vector2(RoomWidth/2, 0)
-	d2.position = room_center + Vector2(RoomWidth/2, 0)
-	d3.position = room_center - Vector2(0, RoomHeight/2)
-	d4.position = room_center + Vector2(0, RoomHeight/2)
+	d.position = room_center - Vector2(RoomWidth/2, 0) + Vector2(0,16)
+	d2.position = room_center + Vector2(RoomWidth/2, 0) + Vector2(0,16)
+	d3.position = room_center - Vector2(0, RoomHeight/2) + Vector2(0,16 - 8)
+	d4.position = room_center + Vector2(0, RoomHeight/2) + Vector2(0,16 - 8)
+	
+	#d2.setFlip(true)
+
+	d.setAnimation("Side")
+	d2.setAnimation("Side")
+	d3.setAnimation("Top")
+	d4.setAnimation("Top")
+	
+	
+	d.playsideclose()
+	d2.playsideclose()
+	d3.playtopclose()
+	d4.playtopclose()
 	
 	doors.append(d)
 	doors.append(d2)

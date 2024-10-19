@@ -700,6 +700,7 @@ _data = {
 radius = 8.0
 
 [node name="Player" type="CharacterBody2D"]
+y_sort_enabled = true
 position = Vector2(0, 3)
 collision_layer = 2
 script = ExtResource("1_2aebs")
@@ -721,6 +722,7 @@ position_smoothing_enabled = true
 position_smoothing_speed = 100.0
 
 [node name="Gun" type="Node2D" parent="."]
+y_sort_enabled = true
 script = ExtResource("3_gxn08")
 GunCorePistol = ExtResource("2_w16w6")
 GunCoreShotgun = ExtResource("3_rcwv1")
@@ -742,6 +744,7 @@ GunNozzleShotgun = ExtResource("10_whwi7")
 stream = ExtResource("6_1lfny")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Gun"]
+y_sort_enabled = true
 position = Vector2(8, -3)
 sprite_frames = SubResource("SpriteFrames_580x2")
 animation = &"spin_infinite"

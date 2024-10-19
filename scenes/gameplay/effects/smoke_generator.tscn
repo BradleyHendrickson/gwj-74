@@ -4,5 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://bootvvsk2xjov" path="res://scenes/gameplay/effects/smoke_particle.tscn" id="2_3qym4"]
 
 [node name="SmokeGenerator" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_v8gww")
 smokeParticle = ExtResource("2_3qym4")
