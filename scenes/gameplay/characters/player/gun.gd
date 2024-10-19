@@ -121,6 +121,25 @@ func getDebugLabel():
 						
 	]
 
+
+func swapCore(newCore):
+	gun_core.queue_free()  # Free the current core
+	var newGunCore = newCore.duplicate()  # Create a clone of newCore
+	gun_core = newGunCore  # Assign the new clone to gun_core
+	add_child(gun_core)  # Add the new core to the scene tree
+
+func swapMagazine(newMag):
+	gun_magazine.queue_free()  # Free the current core
+	var newGunMag = newMag.duplicate()  # Create a clone of newCore
+	gun_magazine = newGunMag  # Assign the new clone to gun_core
+	add_child(gun_magazine)  # Add the new core to the scene tree
+
+func swapNozzle(newNozzle):
+	gun_nozzle.queue_free()  # Free the current core
+	var newGunNozzle = newNozzle.duplicate()   # Create a clone of newCore
+	gun_nozzle = newGunNozzle  # Assign the new clone to gun_core
+	add_child(gun_nozzle)  # Add the new core to the scene tree
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	

@@ -3,6 +3,8 @@ extends Node2D
 @onready var camera: Camera2D = $Camera
 @onready var player = $Player
 @export var health: int = 6
+@export var tears : int = 0
+
 @onready var player_respawn_timer: Timer = $PlayerRespawnTier
 @onready var game_music: AudioStreamPlayer2D = $GameMusic
 
@@ -40,8 +42,8 @@ var target_camera_position = Vector2(0,0)
 @onready var shop_canvas_layer: CanvasLayer = $ShopCanvasLayer
 @onready var enter_shop_timer: Timer = $EnterShopTimer
 @onready var exit_shop_timer: Timer = $ExitShopTimer
-@onready var sound_go_upstairs: AudioStreamPlayer2D = $SoundGoUpstairs
 @onready var sound_trapdoor_close: AudioStreamPlayer2D = $SoundTrapdoorClose
+@onready var sound_go_upstairs: AudioStreamPlayer2D = $SoundGoUpstairs
 
 var shop_active = false
 
@@ -284,7 +286,7 @@ func _process(delta):
 			wave_end(room_center)
 
 	
-	room_info_label.text = str(room_center.x) + ", " + str(room_center.y) + "\n enemies in wave: " + str(enemies.size())
+	room_info_label.text = str(room_center.x) + ", " + str(room_center.y) + "\n enemies in wave: " + str(enemies.size()) + "\n health: " + str(health) + "\n tears: " +str(tears)
 	debug_label.text = player.getDebugLabel()
 
 func _physics_process(delta: float) -> void:
@@ -314,7 +316,8 @@ func _physics_process(delta: float) -> void:
 			add_child(p)
 			player = p
 			health = 6
-			p.position = Vector2(0, 56)
+			tears = 0
+			p.position = Vector2(320, 176)
 
 	vignette.global_position = room_center
 	# Smoothly move the camera towards the biased target position

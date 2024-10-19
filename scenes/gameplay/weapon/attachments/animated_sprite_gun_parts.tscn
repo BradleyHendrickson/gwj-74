@@ -1,0 +1,99 @@
+[gd_scene load_steps=10 format=3 uid="uid://db6jgger4hea2"]
+
+[ext_resource type="Texture2D" uid="uid://dq6qs22nwlg6w" path="res://assets/sprites/spr_gun_mods.png" id="1_5cp40"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lalia"]
+atlas = ExtResource("1_5cp40")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pk5cc"]
+atlas = ExtResource("1_5cp40")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aeh3h"]
+atlas = ExtResource("1_5cp40")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wtbq"]
+atlas = ExtResource("1_5cp40")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_othw8"]
+atlas = ExtResource("1_5cp40")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hiojh"]
+atlas = ExtResource("1_5cp40")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vk5v6"]
+atlas = ExtResource("1_5cp40")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_naofv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lalia")
+}],
+"loop": true,
+"name": &"core_pistol",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pk5cc")
+}],
+"loop": true,
+"name": &"core_shotgun",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aeh3h")
+}],
+"loop": true,
+"name": &"magazine_large",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7wtbq")
+}],
+"loop": true,
+"name": &"magazine_small",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_othw8")
+}],
+"loop": true,
+"name": &"nozzle_accurate",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hiojh")
+}],
+"loop": true,
+"name": &"nozzle_shotgun",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vk5v6")
+}],
+"loop": true,
+"name": &"nozzle_spray",
+"speed": 5.0
+}]
+
+[node name="AnimatedSpriteGunParts" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_naofv")
+animation = &"magazine_small"

@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var sprite_2d: Sprite2D = $Sprite2D
 
 var hovering = false
 	
@@ -17,12 +18,13 @@ func _process(delta: float) -> void:
 	else:
 		animated_sprite_2d.play("default")
 
+func updateTexture(texture):
+	sprite_2d.texture = texture
 
 func _on_area_2d_mouse_entered() -> void:
 	hovering = true
-	print("Mouse entered node")
+
 
 
 func _on_area_2d_mouse_exited() -> void:
 	hovering = false
-	print("Mouse exited node")

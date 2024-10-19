@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2kg224hcn3nn"]
+[gd_scene load_steps=3 format=3 uid="uid://b2kg224hcn3nn"]
 
-[ext_resource type="Script" path="res://scenes/gameplay/gun_magazine.gd" id="1_yx2hh"]
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_magazine.gd" id="1_yx2hh"]
+[ext_resource type="Texture2D" uid="uid://bvts7t3db6b54" path="res://assets/sprites/editor files/spr_gun_mods4.png" id="2_o51j7"]
 
 [node name="GunMagazine" type="Node2D"]
 script = ExtResource("1_yx2hh")
@@ -9,3 +10,4 @@ cooldown_mod = 0.9
 reload_time_mod = 5.0
 part_name = "Large Magazine"
 part_description = "holds a lot of bullets"
+part_texture = ExtResource("2_o51j7")

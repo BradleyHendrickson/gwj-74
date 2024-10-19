@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://eu5ohbcsq3q1"]
+[gd_scene load_steps=3 format=3 uid="uid://eu5ohbcsq3q1"]
 
-[ext_resource type="Script" path="res://scenes/gameplay/gun_magazine.gd" id="1_oxqpw"]
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_magazine.gd" id="1_oxqpw"]
+[ext_resource type="Texture2D" uid="uid://ctg0j2qqsitiw" path="res://assets/sprites/editor files/spr_gun_mods3.png" id="2_wwf5m"]
 
 [node name="GunMagazine" type="Node2D"]
 script = ExtResource("1_oxqpw")
@@ -8,3 +9,4 @@ cooldown_mod = 0.5
 reload_time_mod = 0.8
 part_name = "Small Magazine"
 part_description = "holds a couple bullets"
+part_texture = ExtResource("2_wwf5m")

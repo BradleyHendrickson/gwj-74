@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://7htbbpp6qomx"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_nozzle.gd" id="1_in7qd"]
+[ext_resource type="Texture2D" uid="uid://bgccfxanykp8y" path="res://assets/sprites/editor files/spr_gun_mods7.png" id="2_bj4i1"]
+
+[node name="GunNozzle" type="Node2D"]
+script = ExtResource("1_in7qd")
+spread_mod = 2.0
+cooldown_mod = 0.5
+part_name = "SMG Muzzle"
+part_description = "inaccurate, but fast"
+part_texture = ExtResource("2_bj4i1")

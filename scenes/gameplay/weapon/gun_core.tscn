@@ -16,3 +16,6 @@ stream = ExtResource("2_jl82s")
 stream = ExtResource("4_84yiq")
 volume_db = -2.0
 pitch_scale = 1.2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false

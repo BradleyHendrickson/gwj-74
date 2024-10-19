@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1qoct887ld1x"]
+[gd_scene load_steps=3 format=3 uid="uid://b1qoct887ld1x"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_nozzle.gd" id="1_rh6lg"]
+[ext_resource type="Texture2D" uid="uid://djf1sjubpk0hx" path="res://assets/sprites/editor files/spr_gun_mods5.png" id="2_3xgqe"]
 
 [node name="GunNozzle" type="Node2D"]
 script = ExtResource("1_rh6lg")
@@ -9,3 +10,4 @@ spread_mod = 1.2
 cooldown_mod = 1.1
 part_name = "Shotgun Muzzle"
 part_description = "shoots a spray of multiple bullets"
+part_texture = ExtResource("2_3xgqe")

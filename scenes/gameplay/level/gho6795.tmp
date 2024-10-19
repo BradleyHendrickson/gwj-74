@@ -1,0 +1,79 @@
+[gd_scene load_steps=11 format=3 uid="uid://brn5ilv3dcg8q"]
+
+[ext_resource type="Texture2D" uid="uid://bppcr1qq2msh4" path="res://assets/sprites/ghost_tear.png" id="1_2qc22"]
+[ext_resource type="Script" path="res://scenes/gameplay/level/ghost_tear.gd" id="1_b5xxg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jggfp"]
+atlas = ExtResource("1_2qc22")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbp0a"]
+atlas = ExtResource("1_2qc22")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7bohq"]
+atlas = ExtResource("1_2qc22")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1l72y"]
+atlas = ExtResource("1_2qc22")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5p7or"]
+atlas = ExtResource("1_2qc22")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ai6ln"]
+atlas = ExtResource("1_2qc22")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jynju"]
+atlas = ExtResource("1_2qc22")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1t4mo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jggfp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pbp0a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7bohq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1l72y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5p7or")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ai6ln")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jynju")
+}],
+"loop": false,
+"name": &"shine",
+"speed": 5.0
+}]
+
+[node name="GhostTear" type="Node2D"]
+script = ExtResource("1_b5xxg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_1t4mo")
+animation = &"shine"
+autoplay = "shine"
+
+[node name="SpriteTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="SpriteTimer" to="." method="_on_sprite_timer_timeout"]

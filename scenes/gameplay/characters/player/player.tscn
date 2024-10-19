@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=3 uid="uid://cwn1et87gy81h"]
+[gd_scene load_steps=112 format=3 uid="uid://cwn1et87gy81h"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/characters/player/player.gd" id="1_2aebs"]
 [ext_resource type="Texture2D" uid="uid://dabrkgwim1ayr" path="res://assets/sprites/player.png" id="1_ops1q"]
@@ -12,11 +12,12 @@
 [ext_resource type="PackedScene" uid="uid://eu5ohbcsq3q1" path="res://scenes/gameplay/weapon/attachments/gun_magazine_small.tscn" id="6_u3067"]
 [ext_resource type="PackedScene" uid="uid://b2kg224hcn3nn" path="res://scenes/gameplay/weapon/attachments/gun_magazine_large.tscn" id="7_q2d50"]
 [ext_resource type="PackedScene" uid="uid://cuuqx8qge5ut4" path="res://scenes/gameplay/weapon/attachments/gun_nozzle_accurate.tscn" id="8_378vc"]
-[ext_resource type="PackedScene" uid="uid://7htbbpp6qomx" path="res://scenes/gameplay/weapon/attachments/gun_nozzle_spray.tscn" id="9_mww7p"]
+[ext_resource type="PackedScene" uid="uid://7htbbpp6qomx" path="res://scenes/gameplay/level/gun_nozzle_spray.tscn" id="9_mww7p"]
 [ext_resource type="PackedScene" uid="uid://b1qoct887ld1x" path="res://scenes/gameplay/weapon/attachments/gun_nozzle_shotgun.tscn" id="10_whwi7"]
 [ext_resource type="AudioStream" uid="uid://y2f6quyop667" path="res://assets/sounds/reload_start.wav" id="11_udwua"]
 [ext_resource type="AudioStream" uid="uid://c57gy2bdasa6g" path="res://assets/sounds/reload_finish_2.wav" id="12_olmef"]
 [ext_resource type="AudioStream" uid="uid://cb65yjusolwtk" path="res://assets/sounds/new_audio_stream_wav.tres" id="13_fu43y"]
+[ext_resource type="AudioStream" uid="uid://c3kyvdo0a1h6e" path="res://assets/sounds/sound_get_tear.wav" id="18_kwnil"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s7yt6"]
 atlas = ExtResource("1_ops1q")
@@ -695,6 +696,9 @@ _data = {
 "shoot": SubResource("Animation_4djua")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_gwwap"]
+radius = 8.0
+
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(0, 3)
 collision_layer = 2
@@ -763,3 +767,16 @@ volume_db = 5.0
 
 [node name="CooldownTimer" type="Timer" parent="Gun"]
 one_shot = true
+
+[node name="PickupArea2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea2D"]
+shape = SubResource("CircleShape2D_gwwap")
+
+[node name="SoundGetTear" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("18_kwnil")
+
+[connection signal="body_entered" from="PickupArea2D" to="." method="_on_pickup_area_2d_body_entered"]
+[connection signal="body_exited" from="PickupArea2D" to="." method="_on_pickup_area_2d_body_exited"]

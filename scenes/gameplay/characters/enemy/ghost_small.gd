@@ -8,10 +8,15 @@ const JUMP_VELOCITY = -400.0
 @export var health = 5
 
 @onready var targets: Array
+@export var GhostTear : PackedScene
 
 signal death
 
 func die():
+	var x = GhostTear.instantiate()
+	get_tree().root.add_child(x)
+	x.position = global_position
+	
 	emit_signal("death")
 	smoke_generator.smoke(4)
 	print("good")

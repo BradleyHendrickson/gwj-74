@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bwi541hhk6ryr"]
+[gd_scene load_steps=10 format=3 uid="uid://bwi541hhk6ryr"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/characters/enemy/ghost_small.gd" id="1_hjmqh"]
 [ext_resource type="Texture2D" uid="uid://ficstt4lqr85" path="res://assets/sprites/ghost_small.png" id="1_uqr63"]
 [ext_resource type="PackedScene" uid="uid://dn6dkghyx5fp" path="res://scenes/gameplay/effects/smoke_generator.tscn" id="2_1v4g7"]
+[ext_resource type="PackedScene" uid="uid://brn5ilv3dcg8q" path="res://scenes/gameplay/level/ghost_tear.tscn" id="2_eplqf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qnmtd"]
 atlas = ExtResource("1_uqr63")
@@ -37,6 +38,7 @@ collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_hjmqh")
 health = 2
+GhostTear = ExtResource("2_eplqf")
 
 [node name="SmokeGenerator" parent="." instance=ExtResource("2_1v4g7")]
 

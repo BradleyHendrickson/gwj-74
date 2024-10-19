@@ -1,7 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://5rdoucxbgrj7"]
+[gd_scene load_steps=11 format=3 uid="uid://5rdoucxbgrj7"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/store/gun_purchase.gd" id="1_jtpv5"]
 [ext_resource type="Texture2D" uid="uid://dsvh4p4p8k5oj" path="res://assets/sprites/shop_item_frame.png" id="2_gku8b"]
+[ext_resource type="Texture2D" uid="uid://cfi748kk6pkme" path="res://assets/sprites/check.png" id="3_xi16m"]
+[ext_resource type="Texture2D" uid="uid://ixbx6avwo3dt" path="res://assets/sprites/dollar.png" id="4_inwbh"]
+[ext_resource type="AudioStream" uid="uid://7kr0go1n5jd7" path="res://assets/sounds/sound_buy.wav" id="5_ds2r7"]
+[ext_resource type="AudioStream" uid="uid://jcfu0kt73ofv" path="res://assets/sounds/shop_equip_item.wav" id="6_7gl11"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x26k4"]
 size = Vector2(48, 48)
@@ -45,6 +49,22 @@ shape = SubResource("RectangleShape2D_x26k4")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_8wdh4")
 animation = &"hover"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="SpriteCheck" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_xi16m")
+
+[node name="SpriteDollar" type="Sprite2D" parent="."]
+texture = ExtResource("4_inwbh")
+
+[node name="SoundBuy" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_ds2r7")
+
+[node name="SoundEquip" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_7gl11")
+volume_db = -3.0
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

@@ -5,6 +5,10 @@ extends CharacterBody2D
 @export var acceleration = 0.3
 @onready var gun: Node2D = $Gun
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var pickup_area_2d: Area2D = $PickupArea2D
+@onready var sound_get_tear: AudioStreamPlayer2D = $SoundGetTear
+
+var targets : Array = []
 
 var is_paused = false
 
@@ -35,6 +39,15 @@ func getDebugLabel():
 func _process(delta):
 	if is_paused:
 		return
+	
+	var got = false
+	for target in targets:
+		got = true
+		target.tear_pickup()
+		get_parent().tears += 1
+	if got:
+		sound_get_tear.play()
+		
 	
 	animated_sprite_2d.speed_scale = (abs(velocity.length())/speed) * 1.2
 	
@@ -69,3 +82,12 @@ func _physics_process(delta):
 	else:
 		velocity = velocity.lerp(Vector2.ZERO, friction)
 	move_and_slide()
+
+
+func _on_pickup_area_2d_body_entered(body: Node2D) -> void:
+	if body.has_method("tear_pickup"):
+		targets.append(body)
+
+func _on_pickup_area_2d_body_exited(body: Node2D) -> void:
+	if (targets.has(body)):
+		targets.erase(body)

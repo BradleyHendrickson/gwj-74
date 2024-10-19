@@ -8,6 +8,8 @@ extends Node2D
 @export var use_cooldown_sound = false
 @export var part_name = ""
 @export var part_description = ""
+@export var part_texture : Texture2D = null
+@export var part_type = "core"
 
 func destroy():
 	queue_free()

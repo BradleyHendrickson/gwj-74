@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dr62n1n3vswk6"]
+[gd_scene load_steps=6 format=3 uid="uid://dr62n1n3vswk6"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_core.gd" id="1_hwjwo"]
 [ext_resource type="PackedScene" uid="uid://nnegpx04yylx" path="res://scenes/gameplay/weapon/bullet.tscn" id="2_vuwrf"]
 [ext_resource type="AudioStream" uid="uid://cd0mlej8rpmku" path="res://assets/sounds/gunshot_smg_shot_4-203474.mp3" id="3_5yx7m"]
 [ext_resource type="AudioStream" uid="uid://dbca78hnh2com" path="res://assets/sounds/shotgun_reload.wav" id="4_1rmom"]
+[ext_resource type="Texture2D" uid="uid://c7ne5a1x04usy" path="res://assets/sprites/editor files/spr_gun_mods1.png" id="5_4h4he"]
 
 [node name="GunCore" type="Node2D"]
 script = ExtResource("1_hwjwo")
@@ -11,6 +12,7 @@ bullet = ExtResource("2_vuwrf")
 cooldown = 0.2
 part_name = "Pistol Core"
 part_description = "shoots pistol bullets"
+part_texture = ExtResource("5_4h4he")
 
 [node name="ShootSound1" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_5yx7m")

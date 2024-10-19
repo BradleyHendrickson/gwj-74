@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cuuqx8qge5ut4"]
+[gd_scene load_steps=3 format=3 uid="uid://cuuqx8qge5ut4"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_nozzle.gd" id="1_goqxe"]
+[ext_resource type="Texture2D" uid="uid://dtqt06vqkcpjo" path="res://assets/sprites/editor files/spr_gun_mods6.png" id="2_1kymo"]
 
 [node name="GunNozzle" type="Node2D"]
 script = ExtResource("1_goqxe")
 part_name = "Accurate Muzzle"
 part_description = "shoots pretty straight"
+part_texture = ExtResource("2_1kymo")
