@@ -6,6 +6,15 @@ extends CharacterBody2D
 @onready var gun: Node2D = $Gun
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
+var is_paused = false
+
+func pause():
+	visible = false
+	is_paused = true
+	
+func unpause():
+	visible = true
+	is_paused = false
 
 
 func get_input():
@@ -24,6 +33,8 @@ func getDebugLabel():
 	return gun.getDebugLabel()
 
 func _process(delta):
+	if is_paused:
+		return
 	
 	animated_sprite_2d.speed_scale = (abs(velocity.length())/speed) * 1.2
 	
@@ -49,6 +60,9 @@ func _process(delta):
 	
 		
 func _physics_process(delta):
+	if is_paused:
+		return
+	
 	var direction = get_input()
 	if direction.length() > 0:
 		velocity = velocity.lerp(direction.normalized() * speed, acceleration)

@@ -35,6 +35,26 @@ var target_camera_position = Vector2(0,0)
 @onready var wave_end_timer: Timer = $WaveEndTimer
 @onready var sound_wave_finished_bell: AudioStreamPlayer2D = $SoundWaveFinishedBell
 @onready var wave_finished_sound_timer: Timer = $WaveFinishedSoundTimer
+@onready var trapdoor_timer: Timer = $TrapdoorTimer
+@onready var sound_stairs_down: AudioStreamPlayer2D = $SoundStairsDown
+@onready var shop_canvas_layer: CanvasLayer = $ShopCanvasLayer
+@onready var enter_shop_timer: Timer = $EnterShopTimer
+
+var shop_active = false
+
+func shopTransitionIn():
+	enter_shop_timer.start(1)
+
+func _on_enter_shop_timer_timeout() -> void:
+	activateShop()
+
+func activateShop():
+	shop_active = true
+	shop_canvas_layer.visible = true
+	
+func deactivateShop():
+	shop_active = false
+	shop_canvas_layer.visible = false	
 
 var targets : Array = []
 
@@ -48,6 +68,38 @@ var doors : Array = []
 
 var end_room_center = Vector2(0,0)
 
+func goDownStairs():
+	sound_stairs_down.play()
+
+# Open or close all trapdoors, and make the closest one play a sound
+func trigger_all_trapdoors(open: bool) -> void:
+	var trapdoors = get_tree().get_nodes_in_group("trapdoors")
+	if trapdoors.is_empty():
+		return
+
+	# Find the closest trapdoor to the player
+	var closest_trapdoor = trapdoors[0]
+	var min_distance = player.global_position.distance_to(closest_trapdoor.global_position)
+
+	for trapdoor in trapdoors:
+		var distance = player.global_position.distance_to(trapdoor.global_position)
+		if distance < min_distance:
+			min_distance = distance
+			closest_trapdoor = trapdoor
+
+	# Actuate all trapdoors
+	for trapdoor in trapdoors:
+		if open:
+			trapdoor.openDoor()
+		else:
+			trapdoor.closeDoor()
+
+		# Only the closest trapdoor plays sound
+		if trapdoor == closest_trapdoor:
+			trapdoor.playSound()
+
+
+
 func get_room_center(player_position : Vector2) -> Vector2:
 	var room_x = floor(player_position.x / RoomWidth) * RoomWidth 
 	var room_y = floor(player_position.y / RoomHeight) * RoomHeight
@@ -59,6 +111,7 @@ func _ready() -> void:
 	#game_ui.setHealth(health)
 
 func entered_room(room_center : Vector2):
+	trigger_all_trapdoors(false)
 	sound_door_close.play()
 	area_2d.monitoring= false
 	targets = []
@@ -94,6 +147,9 @@ func _on_wave_end_timer_timeout() -> void:
 	print('TIME')
 	do_wave_end(end_room_center)
 	
+func _on_trapdoor_timer_timeout() -> void:
+	trigger_all_trapdoors(true)
+
 func do_wave_end(room_center: Vector2):
 	sound_door_open.play()
 	reset_collision = false
@@ -106,6 +162,7 @@ func do_wave_end(room_center: Vector2):
 	
 func wave_end(room_center: Vector2):
 	if wave_end_timer.is_stopped():
+		trapdoor_timer.start(2.5)
 		end_room_center = room_center
 		print('starting wave end timer')
 		wave_finished_sound_timer.start(0.6)

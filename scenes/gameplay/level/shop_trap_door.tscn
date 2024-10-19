@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bpe4uxxwth5ie"]
+[gd_scene load_steps=10 format=3 uid="uid://bpe4uxxwth5ie"]
 
 [ext_resource type="Texture2D" uid="uid://xjq2dum2cvv7" path="res://assets/sprites/shop_stairs.png" id="1_4xqua"]
 [ext_resource type="Script" path="res://scenes/gameplay/level/shop_trap_door.gd" id="1_ecykg"]
 [ext_resource type="AudioStream" uid="uid://rsbm3yclerlp" path="res://assets/sounds/trapdoor_open.wav" id="2_vni7d"]
+[ext_resource type="AudioStream" uid="uid://1egm5t2b38ls" path="res://assets/sounds/go_down_stairs.wav" id="4_6p4ve"]
+[ext_resource type="AudioStream" uid="uid://crvvdivddgwxy" path="res://assets/sounds/trapdoor_close.wav" id="5_2dcbu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q13nu"]
 atlas = ExtResource("1_4xqua")
@@ -33,7 +35,7 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ywgia"]
 
-[node name="ShopTrapDoor" type="Node2D"]
+[node name="ShopTrapDoor" type="Node2D" groups=["trapdoors"]]
 z_index = -10
 script = ExtResource("1_ecykg")
 
@@ -42,10 +44,26 @@ position = Vector2(0, 16)
 sprite_frames = SubResource("SpriteFrames_rddf6")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_ywgia")
 
-[node name="Open" type="AudioStreamPlayer2D" parent="."]
+[node name="SoundOpen" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_vni7d")
+volume_db = -1.0
+max_distance = 10000.0
+
+[node name="SoundGoDownStairs" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_6p4ve")
+volume_db = -1.0
+max_distance = 300.0
+
+[node name="SoundCloseTrapDoor" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_2dcbu")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="finished" from="SoundCloseTrapDoor" to="." method="_on_sound_close_trap_door_finished"]

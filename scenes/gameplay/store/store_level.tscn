@@ -1,0 +1,91 @@
+[gd_scene load_steps=13 format=3 uid="uid://bckio4xst1ox7"]
+
+[ext_resource type="Texture2D" uid="uid://oia51febrndy" path="res://assets/sprites/shop.png" id="1_r6bwk"]
+[ext_resource type="Texture2D" uid="uid://bptxo5o0v0cwg" path="res://assets/sprites/shop_background.png" id="1_xp6p1"]
+[ext_resource type="Texture2D" uid="uid://bqef70no0cukp" path="res://assets/sprites/shopkeep.png" id="3_gdyve"]
+[ext_resource type="Texture2D" uid="uid://e10bert12w3e" path="res://assets/sprites/shop_foreground.png" id="4_irpwo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slb46"]
+atlas = ExtResource("3_gdyve")
+region = Rect2(0, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddsru"]
+atlas = ExtResource("3_gdyve")
+region = Rect2(128, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wh1f5"]
+atlas = ExtResource("3_gdyve")
+region = Rect2(256, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nh2gb"]
+atlas = ExtResource("3_gdyve")
+region = Rect2(384, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2hvq"]
+atlas = ExtResource("3_gdyve")
+region = Rect2(512, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrafg"]
+atlas = ExtResource("3_gdyve")
+region = Rect2(640, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jbql"]
+atlas = ExtResource("3_gdyve")
+region = Rect2(768, 0, 128, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wyr6u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slb46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddsru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wh1f5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nh2gb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2hvq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrafg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jbql")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="store_ui" type="Control"]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1280.0
+offset_bottom = -704.0
+
+[node name="ShopBackground" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(640, 352)
+scale = Vector2(2, 2)
+texture = ExtResource("1_xp6p1")
+
+[node name="ShopForeground" type="Sprite2D" parent="."]
+position = Vector2(640, 352)
+scale = Vector2(2, 2)
+texture = ExtResource("1_r6bwk")
+
+[node name="AnimatedSpriteShopkeep" type="AnimatedSprite2D" parent="."]
+position = Vector2(256, 352)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_wyr6u")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(640, 352)
+scale = Vector2(2, 2)
+texture = ExtResource("4_irpwo")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bds4qwlp0q4ox"]
+[gd_scene load_steps=13 format=3 uid="uid://bds4qwlp0q4ox"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/game controllers/game_controller.gd" id="1_ors37"]
 [ext_resource type="PackedScene" uid="uid://cwn1et87gy81h" path="res://scenes/gameplay/characters/player/player.tscn" id="2_454ws"]
@@ -10,10 +10,11 @@
 [ext_resource type="AudioStream" uid="uid://cvj6mw58e0ugh" path="res://assets/sounds/door_slam.wav" id="8_ns2qr"]
 [ext_resource type="AudioStream" uid="uid://bertapc6strrg" path="res://assets/sounds/door_open.wav" id="9_n80yp"]
 [ext_resource type="AudioStream" uid="uid://od3jlhbp1cch" path="res://assets/sounds/old_church_bell.mp3" id="9_r106d"]
+[ext_resource type="PackedScene" uid="uid://bckio4xst1ox7" path="res://scenes/gameplay/store/store_level.tscn" id="11_owq32"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cb1me"]
 
-[node name="GameController" type="Node2D"]
+[node name="GameController" type="Node2D" groups=["gamecontroller"]]
 script = ExtResource("1_ors37")
 playerObject = ExtResource("2_454ws")
 LockedDoor = ExtResource("2_lgqgq")
@@ -99,7 +100,20 @@ one_shot = true
 [node name="WaveFinishedSoundTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="TrapdoorTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ShopCanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="store_ui" parent="ShopCanvasLayer" instance=ExtResource("11_owq32")]
+
+[node name="EnterShopTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="timeout" from="WaveEndTimer" to="." method="_on_wave_end_timer_timeout"]
 [connection signal="timeout" from="WaveFinishedSoundTimer" to="." method="_on_wave_finished_sound_timer_timeout"]
+[connection signal="timeout" from="TrapdoorTimer" to="." method="_on_trapdoor_timer_timeout"]
+[connection signal="timeout" from="EnterShopTimer" to="." method="_on_enter_shop_timer_timeout"]
