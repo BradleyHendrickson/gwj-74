@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://scenes/gameplay/characters/enemy/ghost_small.gd" id="1_hjmqh"]
 [ext_resource type="Texture2D" uid="uid://ficstt4lqr85" path="res://assets/sprites/ghost_small.png" id="1_uqr63"]
 [ext_resource type="PackedScene" uid="uid://dn6dkghyx5fp" path="res://scenes/gameplay/effects/smoke_generator.tscn" id="2_1v4g7"]
-[ext_resource type="PackedScene" path="res://scenes/gameplay/level/ghost_tear.tscn" id="2_eplqf"]
-[ext_resource type="PackedScene" uid="uid://bk3urucr2v35s" path="res://scenes/gameplay/characters/enemy/effect_enemy_die.tscn" id="3_78axc"]
+[ext_resource type="PackedScene" uid="uid://brn5ilv3dcg8q" path="res://scenes/gameplay/level/ghost_tear.tscn" id="2_eplqf"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/characters/enemy/effect_enemy_die.tscn" id="3_78axc"]
 [ext_resource type="Shader" path="res://scenes/gameplay/characters/enemy/ghost_hit.gdshader" id="5_8sth6"]
 [ext_resource type="AudioStream" uid="uid://do2x6kfn0louc" path="res://assets/sounds/Hit_Hurt35.wav" id="6_rylsw"]
 
@@ -44,6 +44,21 @@ radius = 704.284
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chry7"]
 size = Vector2(12, 10)
 
+[sub_resource type="Animation" id="Animation_thyiw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="Animation" id="Animation_vef8k"]
 resource_name = "hit"
 tracks/0/type = "value"
@@ -74,21 +89,6 @@ tracks/1/keys = {
 "args": [false],
 "method": &"setShader"
 }]
-}
-
-[sub_resource type="Animation" id="Animation_thyiw"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3ujr7"]

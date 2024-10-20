@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bfx65l404vcx2" path="res://scenes/gameplay/level/locked_door.tscn" id="2_lgqgq"]
 [ext_resource type="AudioStream" uid="uid://jlt34qn076h2" path="res://assets/sounds/ghost-of-caesar-20353.mp3" id="2_qr823"]
 [ext_resource type="Texture2D" uid="uid://de0rtcmxgi80x" path="res://assets/sprites/vignette.png" id="2_txndp"]
-[ext_resource type="LabelSettings" path="res://scenes/gameplay/game controllers/DebugLabelSettings.tres" id="4_bo66v"]
+[ext_resource type="LabelSettings" uid="uid://cbpt7uwkg4pae" path="res://scenes/gameplay/game controllers/DebugLabelSettings.tres" id="4_bo66v"]
 [ext_resource type="PackedScene" uid="uid://bwi541hhk6ryr" path="res://scenes/gameplay/characters/enemy/ghost_small.tscn" id="4_ppoda"]
 [ext_resource type="AudioStream" uid="uid://c4n06fafssy4a" path="res://assets/sounds/go_up_stairs.wav" id="5_setkt"]
 [ext_resource type="AudioStream" uid="uid://cvj6mw58e0ugh" path="res://assets/sounds/door_slam.wav" id="8_ns2qr"]
