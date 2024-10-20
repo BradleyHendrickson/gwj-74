@@ -1,10 +1,14 @@
-[gd_scene load_steps=24 format=3 uid="uid://wkhin7j71kba"]
+[gd_scene load_steps=28 format=3 uid="uid://dqg6u14q6mlvj"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/characters/enemy/bone_ghost.gd" id="1_hc7k1"]
+[ext_resource type="PackedScene" uid="uid://ct4vdhivtn777" path="res://scenes/gameplay/level/large_ghost_tear.tscn" id="2_oaebx"]
+[ext_resource type="PackedScene" uid="uid://bk3urucr2v35s" path="res://scenes/gameplay/characters/enemy/effect_enemy_die.tscn" id="3_blbi8"]
 [ext_resource type="PackedScene" uid="uid://dn6dkghyx5fp" path="res://scenes/gameplay/effects/smoke_generator.tscn" id="4_1ea75"]
+[ext_resource type="PackedScene" uid="uid://f47jsx0v8n8s" path="res://scenes/gameplay/weapon/enemy_bullet.tscn" id="4_aqwtg"]
 [ext_resource type="Shader" path="res://scenes/gameplay/characters/enemy/ghost_hit.gdshader" id="5_w7y0t"]
 [ext_resource type="Texture2D" uid="uid://xpr4u0w271wg" path="res://assets/sprites/Tribesman-Sheet-Sheet.png" id="6_0mqh3"]
 [ext_resource type="AudioStream" uid="uid://do2x6kfn0louc" path="res://assets/sounds/Hit_Hurt35.wav" id="7_8k1he"]
+[ext_resource type="AudioStream" uid="uid://cqf07pa8ai1gc" path="res://assets/sounds/bone_throw.wav" id="9_yclrj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_72b7n"]
 resource_local_to_scene = true
@@ -149,11 +153,16 @@ process_mode = 1
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_hc7k1")
+health = 8
+GhostTear = ExtResource("2_oaebx")
+die_effect = ExtResource("3_blbi8")
+my_bullet = ExtResource("4_aqwtg")
 
 [node name="SmokeGenerator" parent="." instance=ExtResource("4_1ea75")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_72b7n")
+position = Vector2(2, -7)
 sprite_frames = SubResource("SpriteFrames_8r3jv")
 autoplay = "default"
 frame_progress = 0.796975
@@ -163,6 +172,7 @@ position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_uemew")
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 collision_layer = 4
 collision_mask = 2
 
@@ -170,10 +180,12 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_irilg")
 
 [node name="Area2D2" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+visible = false
 shape = SubResource("CircleShape2D_xmlg3")
 
 [node name="SoundHit" type="AudioStreamPlayer2D" parent="."]
@@ -181,6 +193,7 @@ stream = ExtResource("7_8k1he")
 volume_db = -4.0
 
 [node name="HurtBox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
@@ -194,11 +207,21 @@ libraries = {
 }
 
 [node name="Area2D3" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
 shape = SubResource("CircleShape2D_7jbvl")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ShotTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ThrowBone" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_yclrj")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

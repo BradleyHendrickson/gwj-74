@@ -1,0 +1,117 @@
+[gd_scene load_steps=15 format=3 uid="uid://ct4vdhivtn777"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/level/ghost_tear.gd" id="1_gdtc2"]
+[ext_resource type="Texture2D" uid="uid://0ijmmms3h78y" path="res://assets/sprites/large_ghost_tear.png" id="2_hn2aq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3n2o4"]
+atlas = ExtResource("2_hn2aq")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shfsw"]
+atlas = ExtResource("2_hn2aq")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2glic"]
+atlas = ExtResource("2_hn2aq")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ood6i"]
+atlas = ExtResource("2_hn2aq")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrcq1"]
+atlas = ExtResource("2_hn2aq")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxien"]
+atlas = ExtResource("2_hn2aq")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a4yhb"]
+atlas = ExtResource("2_hn2aq")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qvaow"]
+atlas = ExtResource("2_hn2aq")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hjod"]
+atlas = ExtResource("2_hn2aq")
+region = Rect2(168, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1t4mo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3n2o4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shfsw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2glic")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ood6i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrcq1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxien")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a4yhb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qvaow")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hjod")
+}],
+"loop": false,
+"name": &"shine",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7r1nb"]
+radius = 7.07107
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7oj3l"]
+radius = 48.0
+
+[node name="GhostTear" type="CharacterBody2D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_gdtc2")
+tears_count = 3
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_1t4mo")
+animation = &"shine"
+autoplay = "default"
+
+[node name="SpriteTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7r1nb")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+pitch_scale = 1.5
+
+[node name="PickupRange" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRange"]
+shape = SubResource("CircleShape2D_7oj3l")
+
+[connection signal="timeout" from="SpriteTimer" to="." method="_on_sprite_timer_timeout"]
+[connection signal="body_entered" from="PickupRange" to="." method="_on_pickup_range_body_entered"]
+[connection signal="body_exited" from="PickupRange" to="." method="_on_pickup_range_body_exited"]

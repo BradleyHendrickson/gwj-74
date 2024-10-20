@@ -1,8 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://cbtjyqiqdg52x"]
+[gd_scene load_steps=21 format=3 uid="uid://cxr4b60olu7j0"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/characters/enemy/ghost_large.gd" id="1_4i2v0"]
-[ext_resource type="PackedScene" path="res://scenes/gameplay/level/ghost_tear.tscn" id="2_3b87u"]
-[ext_resource type="PackedScene" uid="uid://wcdqql5xg5p6" path="res://scenes/gameplay/characters/enemy/effect_enemy_die_large.tscn" id="3_k8bcr"]
+[ext_resource type="PackedScene" uid="uid://ct4vdhivtn777" path="res://scenes/gameplay/level/large_ghost_tear.tscn" id="2_xd0qn"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/characters/enemy/effect_enemy_die_large.tscn" id="3_k8bcr"]
 [ext_resource type="Texture2D" uid="uid://b27sbeyv8x38g" path="res://assets/sprites/big_ghost.png" id="4_dugk2"]
 [ext_resource type="PackedScene" uid="uid://dn6dkghyx5fp" path="res://scenes/gameplay/effects/smoke_generator.tscn" id="4_upeg0"]
 [ext_resource type="Shader" path="res://scenes/gameplay/characters/enemy/ghost_hit.gdshader" id="5_ofrc2"]
@@ -124,7 +124,7 @@ collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_4i2v0")
 health = 10
-GhostTear = ExtResource("2_3b87u")
+GhostTear = ExtResource("2_xd0qn")
 die_effect = ExtResource("3_k8bcr")
 
 [node name="SmokeGenerator" parent="." instance=ExtResource("4_upeg0")]

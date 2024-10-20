@@ -8,6 +8,7 @@ extends Control
 
 @onready var gun_attachment_1_config: Node2D = $GunModder/GunAttachment1Config
 @onready var gun_attachment_2_config: Node2D = $GunModder/GunAttachment2Config
+@onready var animated_sprite_shopkeep: AnimatedSprite2D = $AnimatedSpriteShopkeep
 
 @onready var gun_purchase: Node2D = $GunBuyer/GunPurchase
 @onready var gun_purchase_2: Node2D = $GunBuyer/GunPurchase2
@@ -21,24 +22,38 @@ extends Control
 @onready var gun_purchase_10: Node2D = $GunBuyer/GunPurchase10
 @onready var gun_purchase_11: Node2D = $GunBuyer/GunPurchase11
 @onready var gun_purchase_12: Node2D = $GunBuyer/GunPurchase12
+@onready var gun_mod_config: Node2D = $GunModder/GunModConfig
+@onready var health_ade: Node2D = $GunModder/HealthAde
 
 @onready var tears_count_label: Label = $TearsCount
+@onready var blink_timer: Timer = $BlinkTimer
 
 
 var gamecontroller
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+
+	
 	var gamecontrollers = get_tree().get_nodes_in_group("gamecontroller")
 	if gamecontrollers.is_empty():
 		return
 	else:
 		gamecontroller = gamecontrollers[0]
+		
+	if gamecontroller.wave_number >= 10:
+		animated_sprite_shopkeep.play("sick")
+	elif gamecontroller.wave_number >= 30:
+		animated_sprite_shopkeep.play("haunted")
+	else:
+		animated_sprite_shopkeep.play("default")
 	
 
 func updateGunTexture():
 	gun_core_config.updateTexture(gamecontroller.player.gun.gun_core.part_texture)
 	gun_magazine_config.updateTexture(gamecontroller.player.gun.gun_magazine.part_texture)
 	gun_nozzle_config.updateTexture(gamecontroller.player.gun.gun_nozzle.part_texture)
+	if gamecontroller.player.gun.gun_mod:
+		gun_mod_config.updateTexture(gamecontroller.player.gun.gun_mod.part_texture)
 	pass
 	#if gamecontroller.player.gun.gun_core.part_name == "Pistol Core":
 	#if gamecontroller.player.gun.gun_core.part_name == "Shotgun Core":
@@ -70,6 +85,9 @@ func updateTooltip():
 		tipText = gun_purchase_11.getTooltip()
 	if gun_purchase_12.hovering:
 		tipText = gun_purchase_12.getTooltip()
+	
+	if health_ade.hovering:
+		tipText = health_ade.getTooltip()
 		
 	if gun_core_config.hovering:
 		tipText = gamecontroller.player.gun.gun_core.part_name + "\n" + gamecontroller.player.gun.gun_core.part_description
@@ -77,6 +95,8 @@ func updateTooltip():
 		tipText = gamecontroller.player.gun.gun_magazine.part_name + "\n" + gamecontroller.player.gun.gun_magazine.part_description
 	if gun_nozzle_config.hovering:
 		tipText = gamecontroller.player.gun.gun_nozzle.part_name + "\n" + gamecontroller.player.gun.gun_nozzle.part_description
+	if gun_mod_config.hovering and gamecontroller.player.gun.gun_mod:
+		tipText = gamecontroller.player.gun.gun_mod.part_name + "\n" + gamecontroller.player.gun.gun_mod.part_description
 	
 	mouse_tool_tip.text = tipText
 	
@@ -93,6 +113,13 @@ func updateTooltip():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if gamecontroller.wave_number >= 10:
+		animated_sprite_shopkeep.animation = "sick"
+	elif gamecontroller.wave_number >= 30:
+		animated_sprite_shopkeep.animation = "haunted"
+	else:
+		animated_sprite_shopkeep.animation = "default"
+	
 	updateTooltip()
 	updateGunTexture()
 	tears_count_label.text = "Ghost Tears: " + str(gamecontroller.tears)
@@ -101,3 +128,14 @@ func _on_button_button_down() -> void:
 	if gamecontroller:
 		gamecontroller.shopTransitionOut()
 	
+
+
+func _on_blink_timer_timeout() -> void:
+	if gamecontroller.wave_number >= 10:
+		animated_sprite_shopkeep.play("sick")
+	elif gamecontroller.wave_number >= 30:
+		animated_sprite_shopkeep.play("haunted")
+	else:
+		animated_sprite_shopkeep.play("default")
+		
+	blink_timer.start(randf_range(3,10))

@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://b837x64jtif3b"]
+[gd_scene load_steps=3 format=3 uid="uid://c0n1v0807kfyi"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_mod.gd" id="1_wjrlt"]
 [ext_resource type="Texture2D" uid="uid://c5hh5lu3pou0x" path="res://assets/sprites/mod_auto_sear.png" id="2_ubfnq"]

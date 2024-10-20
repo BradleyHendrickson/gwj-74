@@ -29,14 +29,14 @@ func _ready():
 
 func getPrice() -> int:
 	var base_price = price  # The initial price.
-	var wave_factor = gamecontroller.wave_number  # Linear increase per wave.
+	var wave_factor = gamecontroller.wave_number  # Current wave number.
 	
-	# Exponential scaling: makes prices grow faster in later waves.
-	var scaling_factor = 1.2  # Adjust for desired growth speed.
-	var exponential_increase = pow(scaling_factor, wave_factor)
+	# Linear scaling: increase price by 5 per wave.
+	var linear_increase = wave_factor * 3
 
 	# Calculate final price and return it as an integer.
-	return int(base_price + wave_factor * exponential_increase)
+	return int(base_price + linear_increase)
+
 
 func currentlyUsed():
 	if gamecontroller and my_item:
@@ -47,6 +47,8 @@ func currentlyUsed():
 		elif my_item.part_name == gamecontroller.player.gun.gun_nozzle.part_name:
 			sprite_check.visible = true
 		elif  gamecontroller.player.gun.gun_mod and my_item.part_name == gamecontroller.player.gun.gun_mod.part_name:
+			sprite_check.visible = true
+		elif gamecontroller.magnet == true and my_item.part_type == "magnet":
 			sprite_check.visible = true
 		else:
 			sprite_check.visible = false
@@ -87,6 +89,10 @@ func _process(delta: float) -> void:
 				sound_equip.play()
 			elif my_item.part_type == "mod":
 				gamecontroller.player.gun.swapMod(my_item)
+				sound_equip.play()
+			elif my_item.part_type == "magnet":
+				equipped=true
+				gamecontroller.magnet = true
 				sound_equip.play()
 			
 	

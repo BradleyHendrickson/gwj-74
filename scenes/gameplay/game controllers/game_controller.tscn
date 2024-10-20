@@ -1,14 +1,15 @@
-[gd_scene load_steps=21 format=3 uid="uid://bds4qwlp0q4ox"]
+[gd_scene load_steps=25 format=3 uid="uid://bds4qwlp0q4ox"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/game controllers/game_controller.gd" id="1_ors37"]
 [ext_resource type="PackedScene" uid="uid://cwn1et87gy81h" path="res://scenes/gameplay/characters/player/player.tscn" id="2_454ws"]
 [ext_resource type="PackedScene" uid="uid://bfx65l404vcx2" path="res://scenes/gameplay/level/locked_door.tscn" id="2_lgqgq"]
 [ext_resource type="AudioStream" uid="uid://jlt34qn076h2" path="res://assets/sounds/ghost-of-caesar-20353.mp3" id="2_qr823"]
 [ext_resource type="Texture2D" uid="uid://de0rtcmxgi80x" path="res://assets/sprites/vignette.png" id="2_txndp"]
-[ext_resource type="LabelSettings" path="res://scenes/gameplay/game controllers/DebugLabelSettings.tres" id="4_bo66v"]
+[ext_resource type="LabelSettings" uid="uid://bsl5ojcda7f1i" path="res://scenes/gameplay/game controllers/DebugLabelSettings.tres" id="4_bo66v"]
 [ext_resource type="PackedScene" uid="uid://bwi541hhk6ryr" path="res://scenes/gameplay/characters/enemy/ghost_small.tscn" id="4_ppoda"]
-[ext_resource type="PackedScene" uid="uid://cbtjyqiqdg52x" path="res://scenes/gameplay/characters/enemy/ghost_large.tscn" id="5_r18by"]
+[ext_resource type="PackedScene" uid="uid://cxr4b60olu7j0" path="res://scenes/gameplay/characters/enemy/ghost_large.tscn" id="5_r18by"]
 [ext_resource type="AudioStream" uid="uid://c4n06fafssy4a" path="res://assets/sounds/go_up_stairs.wav" id="5_setkt"]
+[ext_resource type="PackedScene" uid="uid://dqg6u14q6mlvj" path="res://scenes/gameplay/characters/enemy/bone_ghost.tscn" id="6_1ixbb"]
 [ext_resource type="AudioStream" uid="uid://cvj6mw58e0ugh" path="res://assets/sounds/door_slam.wav" id="8_ns2qr"]
 [ext_resource type="AudioStream" uid="uid://ba25div4r5w6q" path="res://assets/sounds/shop_music.mp3" id="8_ymj2g"]
 [ext_resource type="AudioStream" uid="uid://bwd1vef5g3hje" path="res://assets/sounds/music_game_over.mp3" id="9_lspo2"]
@@ -16,8 +17,13 @@
 [ext_resource type="AudioStream" uid="uid://od3jlhbp1cch" path="res://assets/sounds/old_church_bell.mp3" id="9_r106d"]
 [ext_resource type="PackedScene" uid="uid://bckio4xst1ox7" path="res://scenes/gameplay/store/store_level.tscn" id="11_owq32"]
 [ext_resource type="AudioStream" uid="uid://crvvdivddgwxy" path="res://assets/sounds/trapdoor_close.wav" id="13_lm15b"]
+[ext_resource type="Texture2D" uid="uid://cm6fq6rqfri1d" path="res://assets/sprites/heart.png" id="14_kfkyk"]
 [ext_resource type="PackedScene" uid="uid://lnstkfcaamvm" path="res://scenes/menus/options_menu/mini_options_menu.tscn" id="15_33pdk"]
+[ext_resource type="Texture2D" uid="uid://bar88ti8285m8" path="res://assets/sprites/spr_tear_ui.png" id="15_p7gxn"]
 [ext_resource type="AudioStream" uid="uid://dicqy6tvqmxq6" path="res://assets/sounds/scream-85294.wav" id="18_h1ecd"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_h53n0"]
+font_size = 48
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cb1me"]
 
@@ -31,6 +37,7 @@ playerObject = ExtResource("2_454ws")
 LockedDoor = ExtResource("2_lgqgq")
 SmallGhost = ExtResource("4_ppoda")
 large_enemy = ExtResource("5_r18by")
+bone_enemy = ExtResource("6_1ixbb")
 
 [node name="SoundDie" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("18_h1ecd")
@@ -84,12 +91,54 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 32.0
 anchor_bottom = 17.6
-offset_left = 1008.0
-offset_top = 16.0
-offset_right = -8.0
-offset_bottom = -640.0
+offset_left = -24.0
+offset_top = 552.0
+offset_right = -1040.0
+offset_bottom = -104.0
 label_settings = ExtResource("4_bo66v")
-horizontal_alignment = 2
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="DebugCanvasLayer/Control"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 576.0
+offset_right = 112.0
+offset_bottom = 672.0
+texture = ExtResource("14_kfkyk")
+
+[node name="TextureRect2" type="TextureRect" parent="DebugCanvasLayer/Control"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 580.0
+offset_right = 192.0
+offset_bottom = 676.0
+texture = ExtResource("15_p7gxn")
+
+[node name="HealthLabel" type="Label" parent="DebugCanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 32.0
+anchor_bottom = 17.6
+offset_left = 32.0
+offset_top = 604.0
+offset_right = -1184.0
+offset_bottom = -36.0
+label_settings = SubResource("LabelSettings_h53n0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TearsLabel" type="Label" parent="DebugCanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 32.0
+anchor_bottom = 17.6
+offset_left = 112.0
+offset_top = 608.0
+offset_right = -1104.0
+offset_bottom = -32.0
+label_settings = SubResource("LabelSettings_h53n0")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="WaveTimer" type="Timer" parent="."]
 one_shot = true

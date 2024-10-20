@@ -7,12 +7,16 @@ extends Node2D
 @onready var player = $Player
 @export var health: int = 6
 @export var tears : int = 0	
+@onready var tears_label: Label = $DebugCanvasLayer/Control/TearsLabel
+
+@export var heal_count = 1
 
 @onready var player_respawn_timer: Timer = $PlayerRespawnTier
 @onready var game_music: AudioStreamPlayer2D = $GameMusic
 @onready var sound_die: AudioStreamPlayer2D = $SoundDie
-
+@export var magnet = false
 @onready var vignette: Sprite2D = $Vignette
+@onready var health_label: Label = $DebugCanvasLayer/Control/HealthLabel
 
 @export var RoomHeight =352
 @export var RoomWidth = 640
@@ -55,7 +59,7 @@ var target_camera_position = Vector2(0,0)
 @onready var death_menu: CanvasLayer = $DeathMenu
 @onready var score_label: Label = $DeathMenu/Control/ColorRect/ScoreLabel
 @export var large_enemy : PackedScene
-
+@export var bone_enemy : PackedScene
 var shop_active = false
 var dead = false
 
@@ -272,8 +276,8 @@ func getWaveLength(wave_number: int) -> float:
 
 # Spawn delay reduces gently, providing early control with steady reduction in later waves.
 func getWaveSpawnDelay(wave_number: int) -> float:
-	var initial_delay = 0.7  # Start a bit slower for first waves (increased from 0.6).
-	var scaling_factor = 0.93  # Slightly less aggressive scaling.
+	var initial_delay = 0.8  # Start a bit slower for first waves (increased from 0.6).
+	var scaling_factor = 0.96  # Slightly less aggressive scaling.
 	var base_delay = initial_delay * pow(scaling_factor, wave_number + 1)  # Offset to slow initial decline.
 
 	# Add small difficulty spikes every few waves to keep things interesting.
@@ -283,7 +287,13 @@ func getWaveSpawnDelay(wave_number: int) -> float:
 	return max(final_delay, 0.1)  # Adjust lower limit to keep things fair.
 
 
-
+func getBoneEnemyChance():
+	if wave_number < 3:
+		return 0
+	elif wave_number < 10:
+		return 0.08
+	else:
+		return 0.1
 
 func getLargeEnemyChance():
 	if wave_number < 3:
@@ -296,11 +306,19 @@ func getLargeEnemyChance():
 func wave_actions(room_center: Vector2):
 	if enemy_spawn_timer.is_stopped():
 		enemy_spawn_timer.start(getWaveSpawnDelay(wave_number))
+		
 		var newEnemy
-		if randf_range(0,1) < getLargeEnemyChance():
+		var rand_value = randf_range(0, 1)
+
+		# Define the probabilities for each enemy type
+		if rand_value < getLargeEnemyChance():
 			newEnemy = large_enemy.instantiate()
+		elif rand_value < getLargeEnemyChance() + getBoneEnemyChance():
+			newEnemy = bone_enemy.instantiate()
 		else:
 			newEnemy = SmallGhost.instantiate()
+		
+		newEnemy.position = room_center # Set the position of the new enemy to the room center
 		add_child(newEnemy)
 
 
@@ -394,6 +412,9 @@ func _process(delta):
 
 		dead = true
 
+	health_label.text = str(health)
+	tears_label.text = str(tears)
+
 	if dead and !game_paused:
 		game_music_2.stop()
 		game_music.stop()
@@ -437,7 +458,8 @@ func _process(delta):
 			wave_end(room_center)
 
 	#str(room_center.x) + ", " + str(room_center.y) + "\n enemies in wave: " + str(enemies.size()) + "\n 
-	room_info_label.text = "health: " + str(health) + "\n tears: " +str(tears) + "\n Wave Length: "+ str(round(getWaveLength(wave_number))) + "\n Wave Spawn Delay: " + str(round(getWaveSpawnDelay(wave_number) * 100) / 100.0) + "\n Wave Timer: "+str(round(wave_timer.time_left)) 
+	#room_info_label.text = "health: " + str(health) + "\n tears: " +str(tears) + "\n Wave Length: "+ str(round(getWaveLength(wave_number))) + "\n Wave Spawn Delay: " + str(round(getWaveSpawnDelay(wave_number) * 100) / 100.0) + "\n Wave Timer: "+str(round(wave_timer.time_left)) 
+	room_info_label.text =  "Wave "+ str(wave_number)
 	debug_label.text = player.getDebugLabel()
 
 func _physics_process(delta: float) -> void:

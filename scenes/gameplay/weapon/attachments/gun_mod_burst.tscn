@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://djamhj54sp4o"]
+[gd_scene load_steps=3 format=3 uid="uid://cu3y1fi8jcjra"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_mod.gd" id="1_srxyu"]
 [ext_resource type="Texture2D" uid="uid://bj65dqyka4p0x" path="res://assets/sprites/mod_burst_mode.png" id="2_3uvbo"]

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://4ga1ijorc7ab"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_mod.gd" id="1_0ch7d"]
+[ext_resource type="Texture2D" uid="uid://dkvcm8so3qgub" path="res://assets/sprites/magnet.png" id="2_ev0ou"]
+
+[node name="GunMod" type="Node2D"]
+script = ExtResource("1_0ch7d")
+cooldown_mod = 3.0
+part_name = "Tear Magnet"
+part_description = "attracts ghost tears from afar"
+part_texture = ExtResource("2_ev0ou")
+part_type = "magnet"

@@ -11,6 +11,9 @@ extends CharacterBody2D
 @onready var sound_player_hit: AudioStreamPlayer2D = $SoundPlayerHit
 @onready var hit_cooldown_timer: Timer = $HitCooldownTimer
 
+@onready var sound_get_tear_big: AudioStreamPlayer2D = $SoundGetTearBig
+
+
 var targets : Array = []
 var buffer_time = 0.1  # 0.1 second buffer window
 var can_shoot = true  # Controls if a shot can happen within the buffer
@@ -55,12 +58,17 @@ func _process(delta):
 		return
 	
 	var got = false
+	var newTears = 0
 	for target in targets:
 		got = true
+		newTears = target.getTears()
+		get_parent().tears += newTears
 		target.tear_pickup()
-		get_parent().tears += 1
 	if got:
-		sound_get_tear.play()
+		if newTears > 1:
+			sound_get_tear_big.play()
+		else:
+			sound_get_tear.play()
 		
 	
 	animated_sprite_2d.speed_scale = (abs(velocity.length())/speed) * 1.2
