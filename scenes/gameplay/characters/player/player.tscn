@@ -1,4 +1,4 @@
-[gd_scene load_steps=119 format=3 uid="uid://cwn1et87gy81h"]
+[gd_scene load_steps=121 format=3 uid="uid://cwn1et87gy81h"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/characters/player/player.gd" id="1_2aebs"]
 [ext_resource type="Texture2D" uid="uid://dabrkgwim1ayr" path="res://assets/sprites/player.png" id="1_ops1q"]
@@ -9,7 +9,7 @@
 [ext_resource type="Script" path="res://scenes/gameplay/characters/player/gun.gd" id="3_gxn08"]
 [ext_resource type="PackedScene" uid="uid://sw1brtbthupi" path="res://scenes/gameplay/weapon/attachments/gun_core_shotgun.tscn" id="3_rcwv1"]
 [ext_resource type="Texture2D" uid="uid://db26e1u6sogxa" path="res://assets/sprites/haunted_gun_spin.png" id="4_4nspr"]
-[ext_resource type="PackedScene" uid="uid://di2dcsypby0uj" path="res://scenes/gameplay/effects/pistol_casing.tscn" id="4_tmdax"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/effects/pistol_casing.tscn" id="4_tmdax"]
 [ext_resource type="AudioStream" uid="uid://cd0mlej8rpmku" path="res://assets/sounds/gunshot_smg_shot_4-203474.mp3" id="6_1lfny"]
 [ext_resource type="PackedScene" uid="uid://eu5ohbcsq3q1" path="res://scenes/gameplay/weapon/attachments/gun_magazine_small.tscn" id="6_u3067"]
 [ext_resource type="PackedScene" uid="uid://b2kg224hcn3nn" path="res://scenes/gameplay/weapon/attachments/gun_magazine_large.tscn" id="7_q2d50"]
@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://b1qoct887ld1x" path="res://scenes/gameplay/weapon/attachments/gun_nozzle_shotgun.tscn" id="10_whwi7"]
 [ext_resource type="AudioStream" uid="uid://y2f6quyop667" path="res://assets/sounds/reload_start.wav" id="11_udwua"]
 [ext_resource type="AudioStream" uid="uid://c57gy2bdasa6g" path="res://assets/sounds/reload_finish_2.wav" id="12_olmef"]
-[ext_resource type="PackedScene" uid="uid://cinocyq8c246q" path="res://scenes/gameplay/effects/casing_generator.tscn" id="12_si3jt"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/effects/casing_generator.tscn" id="12_si3jt"]
 [ext_resource type="AudioStream" uid="uid://cb65yjusolwtk" path="res://assets/sounds/new_audio_stream_wav.tres" id="13_fu43y"]
 [ext_resource type="AudioStream" uid="uid://c3kyvdo0a1h6e" path="res://assets/sounds/sound_get_tear.wav" id="18_kwnil"]
 [ext_resource type="AudioStream" uid="uid://byouu4in0703o" path="res://assets/sounds/gunshot_empty.wav" id="18_n81lb"]
@@ -54,6 +54,21 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0wrmk"]
 size = Vector2(8, 5)
 
+[sub_resource type="Animation" id="Animation_4jad8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="Animation" id="Animation_hw7my"]
 resource_name = "hit"
 length = 0.11
@@ -85,21 +100,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.261799, 0.0]
-}
-
-[sub_resource type="Animation" id="Animation_4jad8"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../AnimatedSprite2D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pqbv5"]
