@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bds4qwlp0q4ox"]
+[gd_scene load_steps=21 format=3 uid="uid://bds4qwlp0q4ox"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/game controllers/game_controller.gd" id="1_ors37"]
 [ext_resource type="PackedScene" uid="uid://cwn1et87gy81h" path="res://scenes/gameplay/characters/player/player.tscn" id="2_454ws"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://de0rtcmxgi80x" path="res://assets/sprites/vignette.png" id="2_txndp"]
 [ext_resource type="LabelSettings" path="res://scenes/gameplay/game controllers/DebugLabelSettings.tres" id="4_bo66v"]
 [ext_resource type="PackedScene" uid="uid://bwi541hhk6ryr" path="res://scenes/gameplay/characters/enemy/ghost_small.tscn" id="4_ppoda"]
+[ext_resource type="PackedScene" uid="uid://cbtjyqiqdg52x" path="res://scenes/gameplay/characters/enemy/ghost_large.tscn" id="5_r18by"]
 [ext_resource type="AudioStream" uid="uid://c4n06fafssy4a" path="res://assets/sounds/go_up_stairs.wav" id="5_setkt"]
 [ext_resource type="AudioStream" uid="uid://cvj6mw58e0ugh" path="res://assets/sounds/door_slam.wav" id="8_ns2qr"]
 [ext_resource type="AudioStream" uid="uid://ba25div4r5w6q" path="res://assets/sounds/shop_music.mp3" id="8_ymj2g"]
@@ -16,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bckio4xst1ox7" path="res://scenes/gameplay/store/store_level.tscn" id="11_owq32"]
 [ext_resource type="AudioStream" uid="uid://crvvdivddgwxy" path="res://assets/sounds/trapdoor_close.wav" id="13_lm15b"]
 [ext_resource type="PackedScene" uid="uid://lnstkfcaamvm" path="res://scenes/menus/options_menu/mini_options_menu.tscn" id="15_33pdk"]
+[ext_resource type="AudioStream" uid="uid://dicqy6tvqmxq6" path="res://assets/sounds/scream-85294.wav" id="18_h1ecd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cb1me"]
 
@@ -28,6 +30,11 @@ script = ExtResource("1_ors37")
 playerObject = ExtResource("2_454ws")
 LockedDoor = ExtResource("2_lgqgq")
 SmallGhost = ExtResource("4_ppoda")
+large_enemy = ExtResource("5_r18by")
+
+[node name="SoundDie" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("18_h1ecd")
+volume_db = 8.0
 
 [node name="SoundGoUpstairs" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_setkt")
@@ -100,6 +107,7 @@ color = Color(1, 1, 1, 0.286275)
 one_shot = true
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
@@ -218,7 +226,7 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 704.0
-color = Color(0.0784314, 0.121569, 0.145098, 0.717647)
+color = Color(0.0784314, 0.121569, 0.145098, 0.85098)
 
 [node name="Label" type="Label" parent="DeathMenu/Control/ColorRect"]
 layout_mode = 0
@@ -228,6 +236,14 @@ offset_right = 864.0
 offset_bottom = 256.0
 text = "You perished within the manor, becoming yet 
 another ghost to roam its haunted halls..."
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="DeathMenu/Control/ColorRect"]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 192.0
+offset_right = 864.0
+offset_bottom = 304.0
 horizontal_alignment = 1
 
 [node name="Label" type="Label" parent="DeathMenu/Control"]

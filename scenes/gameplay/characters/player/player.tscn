@@ -805,6 +805,11 @@ GunNozzleAccurate = ExtResource("8_378vc")
 GunNozzleSpray = ExtResource("9_mww7p")
 GunNozzleShotgun = ExtResource("10_whwi7")
 
+[node name="Laser" type="Line2D" parent="Gun"]
+points = PackedVector2Array(0, 0)
+width = 1.0
+default_color = Color(0.788235, 0.278431, 0.239216, 0.509804)
+
 [node name="Casing generator" parent="Gun" instance=ExtResource("12_si3jt")]
 
 [node name="GunCore" parent="Gun" instance=ExtResource("2_w16w6")]
@@ -849,6 +854,11 @@ one_shot = true
 [node name="SoundGunEmpty" type="AudioStreamPlayer2D" parent="Gun"]
 stream = ExtResource("18_n81lb")
 volume_db = -4.0
+
+[node name="RayCast2D" type="RayCast2D" parent="Gun"]
+
+[node name="BurstModeTimer" type="Timer" parent="Gun"]
+one_shot = true
 
 [node name="PickupArea2D" type="Area2D" parent="."]
 collision_layer = 0

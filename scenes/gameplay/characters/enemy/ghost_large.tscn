@@ -1,48 +1,68 @@
-[gd_scene load_steps=18 format=3 uid="uid://bwi541hhk6ryr"]
+[gd_scene load_steps=21 format=3 uid="uid://cbtjyqiqdg52x"]
 
-[ext_resource type="Script" path="res://scenes/gameplay/characters/enemy/ghost_small.gd" id="1_hjmqh"]
-[ext_resource type="Texture2D" uid="uid://ficstt4lqr85" path="res://assets/sprites/ghost_small.png" id="1_uqr63"]
-[ext_resource type="PackedScene" uid="uid://dn6dkghyx5fp" path="res://scenes/gameplay/effects/smoke_generator.tscn" id="2_1v4g7"]
-[ext_resource type="PackedScene" uid="uid://be87k6j328wp4" path="res://scenes/gameplay/level/ghost_tear.tscn" id="2_eplqf"]
-[ext_resource type="PackedScene" uid="uid://bk3urucr2v35s" path="res://scenes/gameplay/characters/enemy/effect_enemy_die.tscn" id="3_78axc"]
-[ext_resource type="Shader" path="res://scenes/gameplay/characters/enemy/ghost_hit.gdshader" id="5_8sth6"]
-[ext_resource type="AudioStream" uid="uid://do2x6kfn0louc" path="res://assets/sounds/Hit_Hurt35.wav" id="6_rylsw"]
+[ext_resource type="Script" path="res://scenes/gameplay/characters/enemy/ghost_large.gd" id="1_4i2v0"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/level/ghost_tear.tscn" id="2_3b87u"]
+[ext_resource type="PackedScene" uid="uid://wcdqql5xg5p6" path="res://scenes/gameplay/characters/enemy/effect_enemy_die_large.tscn" id="3_k8bcr"]
+[ext_resource type="Texture2D" uid="uid://b27sbeyv8x38g" path="res://assets/sprites/big_ghost.png" id="4_dugk2"]
+[ext_resource type="PackedScene" uid="uid://dn6dkghyx5fp" path="res://scenes/gameplay/effects/smoke_generator.tscn" id="4_upeg0"]
+[ext_resource type="Shader" path="res://scenes/gameplay/characters/enemy/ghost_hit.gdshader" id="5_ofrc2"]
+[ext_resource type="Texture2D" uid="uid://cnfqxg7o6y71m" path="res://assets/sprites/big_ghost_mad.png" id="5_y5wm8"]
+[ext_resource type="AudioStream" uid="uid://do2x6kfn0louc" path="res://assets/sounds/Hit_Hurt35.wav" id="7_lnp6n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_72b7n"]
 resource_local_to_scene = true
-shader = ExtResource("5_8sth6")
+shader = ExtResource("5_ofrc2")
 shader_parameter/active = false
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qnmtd"]
-atlas = ExtResource("1_uqr63")
-region = Rect2(0, 0, 24, 24)
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3ngk"]
+atlas = ExtResource("4_dugk2")
+region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pmcu0"]
-atlas = ExtResource("1_uqr63")
-region = Rect2(24, 0, 24, 24)
+[sub_resource type="AtlasTexture" id="AtlasTexture_6cot4"]
+atlas = ExtResource("4_dugk2")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bc8hs"]
+atlas = ExtResource("5_y5wm8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qoe5s"]
+atlas = ExtResource("5_y5wm8")
+region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8r3jv"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qnmtd")
+"texture": SubResource("AtlasTexture_l3ngk")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pmcu0")
+"texture": SubResource("AtlasTexture_6cot4")
 }],
 "loop": true,
 "name": &"default",
 "speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bc8hs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qoe5s")
+}],
+"loop": true,
+"name": &"mad",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uemew"]
-size = Vector2(14, 12)
+size = Vector2(22, 17)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_irilg"]
 radius = 704.284
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chry7"]
-size = Vector2(12, 10)
+size = Vector2(20, 15)
 
 [sub_resource type="Animation" id="Animation_thyiw"]
 length = 0.001
@@ -98,26 +118,24 @@ _data = {
 "hit": SubResource("Animation_vef8k")
 }
 
-[node name="GhostSmall" type="CharacterBody2D"]
+[node name="GhostLarge" type="CharacterBody2D"]
 process_mode = 1
 collision_layer = 4
 collision_mask = 5
-script = ExtResource("1_hjmqh")
-speed = 70
-health = 2
-GhostTear = ExtResource("2_eplqf")
-die_effect = ExtResource("3_78axc")
+script = ExtResource("1_4i2v0")
+health = 10
+GhostTear = ExtResource("2_3b87u")
+die_effect = ExtResource("3_k8bcr")
 
-[node name="SmokeGenerator" parent="." instance=ExtResource("2_1v4g7")]
+[node name="SmokeGenerator" parent="." instance=ExtResource("4_upeg0")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_72b7n")
 sprite_frames = SubResource("SpriteFrames_8r3jv")
 autoplay = "default"
-frame_progress = 0.840772
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 3)
+position = Vector2(1, 5.5)
 shape = SubResource("RectangleShape2D_uemew")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -129,7 +147,7 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_irilg")
 
 [node name="SoundHit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_rylsw")
+stream = ExtResource("7_lnp6n")
 volume_db = -4.0
 
 [node name="HurtBox" type="Area2D" parent="."]
@@ -137,7 +155,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(0, 3)
+position = Vector2(1, 5.5)
 shape = SubResource("RectangleShape2D_chry7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

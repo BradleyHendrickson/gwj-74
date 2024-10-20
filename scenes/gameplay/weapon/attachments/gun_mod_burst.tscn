@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://djamhj54sp4o"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_mod.gd" id="1_srxyu"]
+[ext_resource type="Texture2D" uid="uid://bj65dqyka4p0x" path="res://assets/sprites/mod_burst_mode.png" id="2_3uvbo"]
+
+[node name="GunMod" type="Node2D"]
+script = ExtResource("1_srxyu")
+cooldown_mod = 3.0
+part_name = "Burst Module"
+part_description = "it has a laser!"
+part_texture = ExtResource("2_3uvbo")

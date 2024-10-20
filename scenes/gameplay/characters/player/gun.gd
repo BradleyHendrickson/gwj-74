@@ -17,6 +17,7 @@ extends Node2D
 @onready var gun_core: Node2D = $GunCore
 @onready var gun_magazine: Node2D = $GunMagazine
 @onready var gun_nozzle: Node2D = $GunNozzle
+@onready var gun_mod: Node2D
 
 @export var ammo : int = 0
 @export var auto : bool = false
@@ -36,6 +37,10 @@ extends Node2D
 @export var currGunMagazine = 'small'
 @export var currGunNozzle = 'accurate'
 
+@onready var laser: Line2D = $Laser
+@onready var burst_mode_timer: Timer = $BurstModeTimer
+
+@onready var ray_cast_2d: RayCast2D = $RayCast2D
 
 @onready var shoot_sound_1: AudioStreamPlayer2D = $ShootSound1
 
@@ -45,20 +50,32 @@ extends Node2D
 @export var was_stopped = true
 @export var casing_amount = 6
 @export var pos = self.position
-var MUZZLE_DISTANCE = 22
+var MUZZLE_DISTANCE = 20
+
+# Variables for burst mode
+var burst_count = 4  # Number of bullets to fire in the burst
+var bullets_fired = 0  # Counter for how many bullets have been fired in the current burst
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	burst_mode_timer.timeout.connect(Callable(self, "_on_BurstModeTimer_timeout"))
 	ammo = gun_magazine.capacity 
 	auto = false
 	uses_ammo = gun_magazine.uses_ammo
 	pass # Replace with function body.
 
 func isAuto():
-	return auto
+	if gun_mod and gun_mod.part_name == "Automatic Sear":
+		return true
+	else:
+		return false
 
 func getCooldownTime():
-	return gun_core.cooldown * gun_magazine.cooldown_mod * gun_nozzle.cooldown_mod
+	var mod_cooldown_mod = 1
+	if gun_mod and gun_mod.cooldown_mod:
+		mod_cooldown_mod = gun_mod.cooldown_mod
+	return (gun_core.cooldown * gun_magazine.cooldown_mod * gun_nozzle.cooldown_mod * mod_cooldown_mod) + gun_core.cooldown_offset
 
 func getReloadTime():
 	return 0.2222 * gun_magazine.reload_time_mod
@@ -66,23 +83,45 @@ func getReloadTime():
 func getSpread():
 	return gun_core.spread * gun_nozzle.spread_mod
 	
+func _on_BurstModeTimer_timeout():
+
+	if bullets_fired < burst_count:
+		fire_bullet()  # Fire a bullet
+		bullets_fired += 1
+		burst_mode_timer.start(0.05)
+	else:
+		burst_mode_timer.stop()  # Stop the timer after firing the burst
+		bullets_fired = 0  # Reset the count
+	
 func shoot():
 	if (ammo > 0 or !uses_ammo) && reload_timer.is_stopped() && cooldown_timer.is_stopped() and !isReloading():
-		ammo -= 1
+		# Handle ammo consumption
+		if uses_ammo:
+			ammo -= 1
+		
 		cooldown_timer.start(getCooldownTime())
-		#animated_sprite_2d.play("shoot")
+
 		
-		smoke_generator.smoke_direction_spread(smoke_amount, rotation, getSpread(), MUZZLE_DISTANCE)	
-		shoot_sound_1.pitch_scale = 1 + randf_range(-0.05,0.05)
-		shoot_sound_1.play()
-		
-		for i in gun_nozzle.bullet_count:
-			var actualSpread = getSpread()
-			var rand_dir = randf_range(-deg_to_rad(actualSpread), deg_to_rad(actualSpread))
-			var new_bullet = gun_core.bullet.instantiate()
-			get_tree().root.add_child(new_bullet)
-			new_bullet.transform = Transform2D( rotation  - rand_dir , global_position + Vector2(MUZZLE_DISTANCE * cos(rotation), MUZZLE_DISTANCE * sin(rotation)))
-		
+		# Check if using Burst Module
+		if gun_mod and gun_mod.part_name == "Burst Module":
+			burst_mode_timer.start(0.05)  # Start the timer for burst fire
+		else:
+			fire_bullet()  # Fire a single bullet immediately
+
+# Function to fire a single bullet
+func fire_bullet():
+		# Play shooting sound and smoke effect
+	smoke_generator.smoke_direction_spread(smoke_amount, rotation, getSpread(), MUZZLE_DISTANCE)	
+	shoot_sound_1.pitch_scale = 1 + randf_range(-0.05, 0.05)
+	gun_core.shoot_sound_1.play()
+	
+	for i in gun_nozzle.bullet_count:
+		var actualSpread = getSpread()
+		var rand_dir = randf_range(-deg_to_rad(actualSpread), deg_to_rad(actualSpread))
+		var new_bullet = gun_core.bullet.instantiate()
+		get_tree().root.add_child(new_bullet)
+		new_bullet.transform = Transform2D(rotation - rand_dir, global_position + Vector2(MUZZLE_DISTANCE * cos(rotation), MUZZLE_DISTANCE * sin(rotation)))
+
 
 func isReloading():
 	if (animated_sprite_2d.animation == "spin_start" or animated_sprite_2d.animation=="spin_infinite") and animated_sprite_2d.is_playing():
@@ -136,6 +175,13 @@ func swapCore(newCore):
 	gun_core = newGunCore  # Assign the new clone to gun_core
 	add_child(gun_core)  # Add the new core to the scene tree
 
+func swapMod(newMod):
+	if gun_mod:
+		gun_mod.queue_free()  # Free the current core
+	var newGunMod = newMod.duplicate()  # Create a clone of newCore
+	gun_mod = newGunMod  # Assign the new clone to gun_core
+	add_child(gun_mod)  # Add the new core to the scene tree
+
 func swapMagazine(newMag):
 	ammo = 0
 	gun_magazine.queue_free()  # Free the current core
@@ -151,6 +197,18 @@ func swapNozzle(newNozzle):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
+	var laser_length = 1000
+	var laser_start = position + Vector2(MUZZLE_DISTANCE-8,0)
+	var laser_end = laser_start + (Vector2(1,0) * laser_length)
+	if laser:
+		laser.points = [laser_start, laser_end]
+	
+	if !isReloading() and (gun_mod and gun_mod.part_name == "Burst Module") :
+		laser.visible = true
+	else:
+		laser.visible = false
+	
 	if Input.is_action_just_pressed("shoot") and !get_parent().is_paused:
 		if ammo <= 0 and !isReloading():
 			sound_gun_empty.play()

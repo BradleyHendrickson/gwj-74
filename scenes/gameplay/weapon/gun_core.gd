@@ -5,6 +5,7 @@ extends Node2D
 @export var bullet : PackedScene
 @export var spread  = 5
 @export var cooldown = 0.08
+@export var cooldown_offset = 0.00
 @export var use_cooldown_sound = false
 @export var part_name = ""
 @export var part_description = ""

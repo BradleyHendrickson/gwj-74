@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b837x64jtif3b"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_mod.gd" id="1_wjrlt"]
+[ext_resource type="Texture2D" uid="uid://c5hh5lu3pou0x" path="res://assets/sprites/mod_auto_sear.png" id="2_ubfnq"]
+
+[node name="GunMod" type="Node2D"]
+script = ExtResource("1_wjrlt")
+cooldown_mod = 1.0
+part_name = "Automatic Sear"
+part_description = "FULL AUTO BABY"
+part_texture = ExtResource("2_ubfnq")

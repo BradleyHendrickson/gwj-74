@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dg8u8vicaxnmx"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_magazine.gd" id="1_h4jj3"]
+[ext_resource type="Texture2D" uid="uid://ccf1n2kak4m7h" path="res://assets/sprites/mag_medium.png" id="2_4f3l5"]
+
+[node name="GunMagazine" type="Node2D"]
+script = ExtResource("1_h4jj3")
+capacity = 12
+cooldown_mod = 0.9
+reload_time_mod = 2.0
+part_name = "Medium Magazine"
+part_description = "holds 12 bullets!"
+part_texture = ExtResource("2_4f3l5")

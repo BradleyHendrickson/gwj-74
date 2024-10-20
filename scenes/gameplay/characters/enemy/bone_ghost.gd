@@ -3,7 +3,7 @@ extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var smoke_generator: Node2D = $SmokeGenerator
 
-@export var speed = 50 #50
+@export var speed = 50 # Speed of the enemy
 const JUMP_VELOCITY = -400.0
 @export var health = 5
 
@@ -21,6 +21,11 @@ var dead = false
 var hit_targets = []
 
 signal death
+
+@export var dead_zone_radius = 50.0 # Distance to stay still
+@export var safe_distance = 80.0 # Distance to start moving away from the player
+
+var state = "idle" # States: "idle", "approaching", "retreating"
 
 func setShader(value):
 	animated_sprite_2d.material.set("shader_param/active", value)
@@ -49,32 +54,44 @@ func hit(damage):
 
 func _ready():
 	speed += randf_range(0, 10)
-	
+
 func _process(delta):
 	for tar in hit_targets:
 		tar.hit()
 
 func _physics_process(delta: float) -> void:
+	var player_position = Vector2.ZERO
+	
 	if len(targets) > 0:
-		var follow = targets[0]
-		var direction = follow.position - position
-		var dir_vec = direction.normalized()
+		player_position = targets[0].position
+		var direction = player_position - position
+		var distance_to_player = direction.length()
+		direction = direction.normalized()
 
-		# Check if the player is in Area2D2 or Area2D3
-		if area_2d_2.overlaps_body(follow):
-			# Player is in Area2D2, move away
-			velocity = -dir_vec * speed
-		elif area_2d_3.overlaps_body(follow):
-			# Player is in Area2D3, also move away
-			velocity = -dir_vec * speed
+		# Check which state to be in based on the player's distance
+		if area_2d_2 and area_2d_2.overlaps_body(targets[0]):
+			state = "retreating" # Player is in Area2D2, retreat
+		elif area_2d_3 and area_2d_3.overlaps_body(targets[0]):
+			state = "retreating" # Player is in Area2D3, retreat
+		elif distance_to_player > dead_zone_radius and distance_to_player <= safe_distance:
+			state = "approaching" # Player is outside the dead zone but inside the safe distance
 		else:
-			# Move towards the player
-			velocity = dir_vec * speed
+			state = "idle" # Player is in dead zone or too far
 
-	if sign(velocity.x) > 0:
-		animated_sprite_2d.flip_h = false
-	else:
-		animated_sprite_2d.flip_h = true
+		# Handle movement based on the state
+		match state:
+			"approaching":
+				velocity = direction * speed
+			"retreating":
+				velocity = -direction * speed
+			"idle":
+				velocity = Vector2.ZERO
+
+		# Update the flip_h property only when approaching
+		if state == "approaching":
+			animated_sprite_2d.flip_h = sign(velocity.x) < 0
+		else:
+			animated_sprite_2d.flip_h = false # Reset to default when idle or retreating
 
 	move_and_slide()
 
@@ -94,17 +111,17 @@ func _on_hurt_box_body_exited(body: Node2D) -> void:
 		hit_targets.erase(body)
 
 func _on_area_2d_2_body_entered(body: Node2D) -> void:
-	# You may want to handle logic here when entering Area2D2
+	# Optional: Logic for entering Area2D2
 	pass
 
 func _on_area_2d_2_body_exited(body: Node2D) -> void:
-	# You may want to handle logic here when exiting Area2D2
+	# Optional: Logic for exiting Area2D2
 	pass
 
 func _on_area_2d_3_body_entered(body: Node2D) -> void:
-	# You may want to handle logic here when entering Area2D3
+	# Optional: Logic for entering Area2D3
 	pass
 
 func _on_area_2d_3_body_exited(body: Node2D) -> void:
-	# You may want to handle logic here when exiting Area2D3
+	# Optional: Logic for exiting Area2D3
 	pass

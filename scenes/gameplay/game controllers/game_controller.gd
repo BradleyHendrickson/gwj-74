@@ -6,10 +6,11 @@ extends Node2D
 @onready var camera: Camera2D = $Camera
 @onready var player = $Player
 @export var health: int = 6
-@export var tears : int = 0
+@export var tears : int = 0	
 
 @onready var player_respawn_timer: Timer = $PlayerRespawnTier
 @onready var game_music: AudioStreamPlayer2D = $GameMusic
+@onready var sound_die: AudioStreamPlayer2D = $SoundDie
 
 @onready var vignette: Sprite2D = $Vignette
 
@@ -52,6 +53,8 @@ var target_camera_position = Vector2(0,0)
 @onready var game_music_2: AudioStreamPlayer2D = $GameMusic2
 @onready var in_game_options: CanvasLayer = $InGameOptions
 @onready var death_menu: CanvasLayer = $DeathMenu
+@onready var score_label: Label = $DeathMenu/Control/ColorRect/ScoreLabel
+@export var large_enemy : PackedScene
 
 var shop_active = false
 var dead = false
@@ -148,51 +151,7 @@ func _ready() -> void:
 	game_music.play()
 	#game_ui.setHealth(health)
 
-func entered_room(room_center : Vector2):
-	door_close()
-	for door in doors.duplicate():
-		doors.erase(door)
-		door.queue_free()
-	trigger_all_trapdoors(false)
-	area_2d.monitoring= false
-	targets = []
 
-	in_room = room_center
-	room_finished = false
-	#lock the doors!
-	var d = LockedDoor.instantiate()
-	var d2 = LockedDoor.instantiate()
-	var d3 = LockedDoor.instantiate()
-	var d4 = LockedDoor.instantiate()
-	add_child(d)
-	add_child(d2)
-	add_child(d3)
-	add_child(d4)
-	d.position = room_center - Vector2(RoomWidth/2, 0) + Vector2(0,16)
-	d2.position = room_center + Vector2(RoomWidth/2, 0) + Vector2(0,16)
-	d3.position = room_center - Vector2(0, RoomHeight/2) + Vector2(0,16 - 8)
-	d4.position = room_center + Vector2(0, RoomHeight/2) + Vector2(0,16 - 8)
-	
-	#d2.setFlip(true)
-
-	d.setAnimation("Side")
-	d2.setAnimation("Side")
-	d3.setAnimation("Top")
-	d4.setAnimation("Top")
-	
-	
-	d.playsideclose()
-	d2.playsideclose()
-	d3.playtopclose()
-	d4.playtopclose()
-	
-	doors.append(d)
-	doors.append(d2)
-	doors.append(d3)
-	doors.append(d4)
-	
-	#start the timer!
-	wave_timer.start(getWaveLength())
 	
 func _on_wave_finished_sound_timer_timeout() -> void:
 	sound_wave_finished_bell.play()
@@ -213,38 +172,86 @@ func door_close():
 	await get_tree().create_timer(0.1).timeout
 	sound_door_close.play()
 
+# Helper function to check if a door's position is within bounds.
+func is_position_within_bounds(pos: Vector2) -> bool:
+	return pos.x > -640 and pos.x < 1074 and pos.y > -650 and pos.y < 352	
+
+
+func entered_room(room_center: Vector2):
+	door_close()
+	for door in doors.duplicate():
+		doors.erase(door)
+		door.queue_free()
+	trigger_all_trapdoors(false)
+	area_2d.monitoring = false
+	targets = []
+
+	in_room = room_center
+	room_finished = false
+
+
+	# Create and position doors.
+	var door_positions = [
+		room_center - Vector2(RoomWidth / 2, 0) + Vector2(0, 16),
+		room_center + Vector2(RoomWidth / 2, 0) + Vector2(0, 16),
+		room_center - Vector2(0, RoomHeight / 2) + Vector2(0, 16 - 8),
+		room_center + Vector2(0, RoomHeight / 2) + Vector2(0, 16 - 8)
+	]
+
+	for pos in door_positions:
+		if is_position_within_bounds(pos):
+			var door = LockedDoor.instantiate()
+			add_child(door)
+			door.position = pos
+
+			# Set the correct animation based on orientation.
+			if abs(pos.x - room_center.x) > abs(pos.y - room_center.y):
+				door.setAnimation("Side")
+				door.playsideclose()
+			else:
+				door.setAnimation("Top")
+				door.playtopclose()
+
+			doors.append(door)
+
+	# Start the timer.
+	wave_timer.start(getWaveLength(wave_number))
+
+
 func do_wave_end(room_center: Vector2):
 	door_open()
 	wave_number += 1
 	reset_collision = false
 	room_finished = true
 	print("yay you killed 'em all")
-	# Iterate over a copy of the doors array to avoid modifying it while looping
+
+	# Clean up existing doors.
 	for door in doors.duplicate():
 		doors.erase(door)
 		door.queue_free()
-		var d = LockedDoor.instantiate()
-		var d2 = LockedDoor.instantiate()
-		var d3 = LockedDoor.instantiate()
-		var d4 = LockedDoor.instantiate()
-		add_child(d)
-		add_child(d2)
-		add_child(d3)
-		add_child(d4)
-		d.position = room_center - Vector2(RoomWidth/2, 0) + Vector2(0,16)
-		d2.position = room_center + Vector2(RoomWidth/2, 0) + Vector2(0,16)
-		d3.position = room_center - Vector2(0, RoomHeight/2) + Vector2(0,16 - 8)
-		d4.position = room_center + Vector2(0, RoomHeight/2) + Vector2(0,16 - 8)
-		
-		d.playside()
-		d2.playside()
-		d3.playtop()
-		d4.playtop()
-		
-		doors.append(d)
-		doors.append(d2)
-		doors.append(d3)
-		doors.append(d4)
+
+	# Create and position new doors.
+	var door_positions = [
+		room_center - Vector2(RoomWidth / 2, 0) + Vector2(0, 16),
+		room_center + Vector2(RoomWidth / 2, 0) + Vector2(0, 16),
+		room_center - Vector2(0, RoomHeight / 2) + Vector2(0, 16 - 8),
+		room_center + Vector2(0, RoomHeight / 2) + Vector2(0, 16 - 8)
+	]
+
+	for pos in door_positions:
+		if is_position_within_bounds(pos):
+			var door = LockedDoor.instantiate()
+			add_child(door)
+			door.position = pos
+
+			# Set the correct animation based on orientation.
+			if abs(pos.x - room_center.x) > abs(pos.y - room_center.y):
+				door.playside()
+			else:
+				door.playtop()
+
+			doors.append(door)
+
 		
 func wave_end(room_center: Vector2):
 	if wave_end_timer.is_stopped():
@@ -254,17 +261,48 @@ func wave_end(room_center: Vector2):
 		wave_finished_sound_timer.start(0.6)
 		wave_end_timer.start(1.8)
 
-func getWaveLength():
-	return 5.00 + (min(wave_number,20)/20)*10	
+# Wave length increases smoothly with a less aggressive start but stabilizes in later waves.
+func getWaveLength(wave_number: int) -> float:
+	var max_length = 18.0  # Cap wave length to prevent excessive waits.
+	var min_length = 8.0    # Start waves slower to ease players in (increased from 7.0).
+	
+	# Use cubic root with a gentler factor for early waves but maintain steady growth.
+	var growth = min_length + pow(wave_number + 2, 1/3) * 1.8  # Offset curve for easier start.
+	return min(growth, max_length)
 
-func getWaveSpawnDelay():
-	return 0.01	 + 1.00/(wave_number+1.00)
+# Spawn delay reduces gently, providing early control with steady reduction in later waves.
+func getWaveSpawnDelay(wave_number: int) -> float:
+	var initial_delay = 0.7  # Start a bit slower for first waves (increased from 0.6).
+	var scaling_factor = 0.93  # Slightly less aggressive scaling.
+	var base_delay = initial_delay * pow(scaling_factor, wave_number + 1)  # Offset to slow initial decline.
+
+	# Add small difficulty spikes every few waves to keep things interesting.
+	var difficulty_spike = 0.1 * sin(wave_number / 3.5)  # Softer spikes for smoother flow.
+	var final_delay = base_delay - difficulty_spike
+
+	return max(final_delay, 0.1)  # Adjust lower limit to keep things fair.
+
+
+
+
+func getLargeEnemyChance():
+	if wave_number < 3:
+		return 0
+	elif wave_number < 10:
+		return 0.05
+	else:
+		return 0.07
 	
 func wave_actions(room_center: Vector2):
 	if enemy_spawn_timer.is_stopped():
-		enemy_spawn_timer.start(getWaveSpawnDelay())
-		var newEnemy = SmallGhost.instantiate()
+		enemy_spawn_timer.start(getWaveSpawnDelay(wave_number))
+		var newEnemy
+		if randf_range(0,1) < getLargeEnemyChance():
+			newEnemy = large_enemy.instantiate()
+		else:
+			newEnemy = SmallGhost.instantiate()
 		add_child(newEnemy)
+
 
 		# RoomWidth, RoomHeight
 		var newPosition = random_spawn_position(room_center)
@@ -346,18 +384,23 @@ func _on_enemy_death(enemy: Node):
 
 	enemy.queue_free()
 
+
 func _process(delta):
 	
 	if !debug:
 		debug_label.visible = false
 
 	if health <= 0:
+
 		dead = true
 
 	if dead and !game_paused:
 		game_music_2.stop()
 		game_music.stop()
 		game_music_3.play()
+		sound_die.play()
+
+		score_label.text = "You survived " + str(wave_number) + " waves, perishing with " + str(tears) + " ghost tears collected."
 
 		game_paused = true
 		get_tree().paused = true
@@ -393,8 +436,8 @@ func _process(delta):
 		if enemies.size() == 0 and !room_finished:
 			wave_end(room_center)
 
-	
-	room_info_label.text = str(room_center.x) + ", " + str(room_center.y) + "\n enemies in wave: " + str(enemies.size()) + "\n health: " + str(health) + "\n tears: " +str(tears) + "\n Wave Length: "+ str(getWaveLength()) + "\n Wave Spawn Delay: " + str(getWaveSpawnDelay()) + "\n Wave Timer: "+str(round(wave_timer.time_left * 100) / 100.0) 
+	#str(room_center.x) + ", " + str(room_center.y) + "\n enemies in wave: " + str(enemies.size()) + "\n 
+	room_info_label.text = "health: " + str(health) + "\n tears: " +str(tears) + "\n Wave Length: "+ str(round(getWaveLength(wave_number))) + "\n Wave Spawn Delay: " + str(round(getWaveSpawnDelay(wave_number) * 100) / 100.0) + "\n Wave Timer: "+str(round(wave_timer.time_left)) 
 	debug_label.text = player.getDebugLabel()
 
 func _physics_process(delta: float) -> void:

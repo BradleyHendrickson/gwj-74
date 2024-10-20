@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://rwngtv1cls5m"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/weapon/gun_core.gd" id="1_tl42h"]
+[ext_resource type="PackedScene" uid="uid://dyb60e2xcgkei" path="res://scenes/gameplay/weapon/bullet_rifle.tscn" id="2_vgeun"]
+[ext_resource type="Texture2D" uid="uid://bcvg2awn6cnt5" path="res://assets/sprites/editor files/spr_gun_mods_rifle.png" id="3_upwg7"]
+[ext_resource type="AudioStream" uid="uid://c3xxbdya06wv" path="res://assets/sounds/rifle.wav" id="4_brm2b"]
+[ext_resource type="AudioStream" uid="uid://dbca78hnh2com" path="res://assets/sounds/shotgun_reload.wav" id="5_ceghg"]
+
+[node name="GunCore" type="Node2D"]
+script = ExtResource("1_tl42h")
+bullet = ExtResource("2_vgeun")
+spread = 2
+cooldown = 0.2
+cooldown_offset = 0.15
+part_name = "Rifle Core"
+part_description = "fires high caliber rifle bullets"
+part_texture = ExtResource("3_upwg7")
+
+[node name="ShootSound1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_brm2b")
+volume_db = -2.0
+
+[node name="CooldownSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_ceghg")
+volume_db = -2.0
+pitch_scale = 1.2

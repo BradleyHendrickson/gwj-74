@@ -27,6 +27,17 @@ func _ready():
 		my_item = upgradeItem.instantiate()
 		sprite_2d.texture= my_item.part_texture
 
+func getPrice() -> int:
+	var base_price = price  # The initial price.
+	var wave_factor = gamecontroller.wave_number  # Linear increase per wave.
+	
+	# Exponential scaling: makes prices grow faster in later waves.
+	var scaling_factor = 1.2  # Adjust for desired growth speed.
+	var exponential_increase = pow(scaling_factor, wave_factor)
+
+	# Calculate final price and return it as an integer.
+	return int(base_price + wave_factor * exponential_increase)
+
 func currentlyUsed():
 	if gamecontroller and my_item:
 		if my_item.part_name == gamecontroller.player.gun.gun_core.part_name:
@@ -34,6 +45,8 @@ func currentlyUsed():
 		elif my_item.part_name == gamecontroller.player.gun.gun_magazine.part_name:
 			sprite_check.visible = true
 		elif my_item.part_name == gamecontroller.player.gun.gun_nozzle.part_name:
+			sprite_check.visible = true
+		elif  gamecontroller.player.gun.gun_mod and my_item.part_name == gamecontroller.player.gun.gun_mod.part_name:
 			sprite_check.visible = true
 		else:
 			sprite_check.visible = false
@@ -43,7 +56,7 @@ func currentlyUsed():
 func getTooltip():
 	if my_item:
 		if !unlocked:
-			return "Purchase? ($"+str(price)+")" + "\n" + my_item.part_name + "\n" + my_item.part_description
+			return "Purchase? ($"+str(getPrice())+")" + "\n" + my_item.part_name + "\n" + my_item.part_description
 		else:
 			if equipped:
 				return "(Equipped)" + "\n" + my_item.part_name + "\n" + my_item.part_description
@@ -53,10 +66,12 @@ func getTooltip():
 		return ""
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed('shoot') and hovering:
+
+	
+	if Input.is_action_just_pressed('shoot') and hovering and my_item:
 		if !unlocked:
-			if gamecontroller.tears >= price:
-				gamecontroller.tears -= price
+			if gamecontroller.tears >= getPrice():
+				gamecontroller.tears -= getPrice()
 				unlocked = true
 				sound_buy.play()
 		elif !equipped:
@@ -69,6 +84,9 @@ func _process(delta: float) -> void:
 				sound_equip.play()
 			elif my_item.part_type == "nozzle":
 				gamecontroller.player.gun.swapNozzle(my_item)
+				sound_equip.play()
+			elif my_item.part_type == "mod":
+				gamecontroller.player.gun.swapMod(my_item)
 				sound_equip.play()
 			
 	
