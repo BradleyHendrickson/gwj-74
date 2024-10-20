@@ -7,10 +7,22 @@ extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var pickup_area_2d: Area2D = $PickupArea2D
 @onready var sound_get_tear: AudioStreamPlayer2D = $SoundGetTear
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var sound_player_hit: AudioStreamPlayer2D = $SoundPlayerHit
+@onready var hit_cooldown_timer: Timer = $HitCooldownTimer
 
 var targets : Array = []
-
+var buffer_time = 0.1  # 0.1 second buffer window
+var can_shoot = true  # Controls if a shot can happen within the buffer
 var is_paused = false
+
+func hit():
+	if hit_cooldown_timer.is_stopped():
+		get_parent().health -= 1
+		sound_player_hit.pitch_scale = 1 + randf_range(-0.1	,0.1)
+		animation_player.play("hit")
+		sound_player_hit.play()
+		hit_cooldown_timer.start(0.6)
 
 func pause():
 	visible = false
@@ -20,6 +32,8 @@ func unpause():
 	visible = true
 	is_paused = false
 
+func setShader(value):
+	animated_sprite_2d.material.set("shader_param/active", value)
 
 func get_input():
 	var input = Vector2()
@@ -66,11 +80,17 @@ func _process(delta):
 		gun.shoot()
 	
 	if Input.is_action_just_pressed("shoot") and !gun.isAuto():
-		gun.shoot()
+		if can_shoot:
+			gun.shoot()
+			can_shoot = false  # Disable shooting temporarily
+			start_shoot_buffer()  # Start the buffer timer
 		
 	if Input.is_action_just_pressed("reload"):
 		gun.reload()
 	
+func start_shoot_buffer() -> void:
+	await get_tree().create_timer(buffer_time).timeout  # Await the timer completion
+	can_shoot = true  # Re-enable shooting after the buffer expires
 		
 func _physics_process(delta):
 	if is_paused:

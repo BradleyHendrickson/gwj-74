@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bk3urucr2v35s"]
+
+[ext_resource type="Script" path="res://effect_enemy_die.gd" id="1_7frj2"]
+[ext_resource type="AudioStream" uid="uid://ctayr3j0p4pqt" path="res://assets/sounds/ghost_die.mp3" id="2_7srna"]
+
+[node name="EffectEnemyDie" type="Node2D"]
+script = ExtResource("1_7frj2")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_7srna")
+volume_db = 2.0

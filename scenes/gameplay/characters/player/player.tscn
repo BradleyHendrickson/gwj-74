@@ -1,7 +1,8 @@
-[gd_scene load_steps=112 format=3 uid="uid://cwn1et87gy81h"]
+[gd_scene load_steps=119 format=3 uid="uid://cwn1et87gy81h"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/characters/player/player.gd" id="1_2aebs"]
 [ext_resource type="Texture2D" uid="uid://dabrkgwim1ayr" path="res://assets/sprites/player.png" id="1_ops1q"]
+[ext_resource type="Shader" path="res://scenes/gameplay/characters/enemy/ghost_hit.gdshader" id="2_cdb8h"]
 [ext_resource type="PackedScene" uid="uid://dn6dkghyx5fp" path="res://scenes/gameplay/effects/smoke_generator.tscn" id="2_uahlc"]
 [ext_resource type="PackedScene" uid="uid://dr62n1n3vswk6" path="res://scenes/gameplay/weapon/attachments/gun_core_pistol.tscn" id="2_w16w6"]
 [ext_resource type="Texture2D" uid="uid://buqslqbwqtnp" path="res://assets/sprites/haunted_revolver.png" id="3_38y86"]
@@ -12,12 +13,19 @@
 [ext_resource type="PackedScene" uid="uid://eu5ohbcsq3q1" path="res://scenes/gameplay/weapon/attachments/gun_magazine_small.tscn" id="6_u3067"]
 [ext_resource type="PackedScene" uid="uid://b2kg224hcn3nn" path="res://scenes/gameplay/weapon/attachments/gun_magazine_large.tscn" id="7_q2d50"]
 [ext_resource type="PackedScene" uid="uid://cuuqx8qge5ut4" path="res://scenes/gameplay/weapon/attachments/gun_nozzle_accurate.tscn" id="8_378vc"]
-[ext_resource type="PackedScene" uid="uid://7htbbpp6qomx" path="res://scenes/gameplay/level/gun_nozzle_spray.tscn" id="9_mww7p"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/level/gun_nozzle_spray.tscn" id="9_mww7p"]
 [ext_resource type="PackedScene" uid="uid://b1qoct887ld1x" path="res://scenes/gameplay/weapon/attachments/gun_nozzle_shotgun.tscn" id="10_whwi7"]
 [ext_resource type="AudioStream" uid="uid://y2f6quyop667" path="res://assets/sounds/reload_start.wav" id="11_udwua"]
 [ext_resource type="AudioStream" uid="uid://c57gy2bdasa6g" path="res://assets/sounds/reload_finish_2.wav" id="12_olmef"]
 [ext_resource type="AudioStream" uid="uid://cb65yjusolwtk" path="res://assets/sounds/new_audio_stream_wav.tres" id="13_fu43y"]
 [ext_resource type="AudioStream" uid="uid://c3kyvdo0a1h6e" path="res://assets/sounds/sound_get_tear.wav" id="18_kwnil"]
+[ext_resource type="AudioStream" uid="uid://byouu4in0703o" path="res://assets/sounds/gunshot_empty.wav" id="18_n81lb"]
+[ext_resource type="AudioStream" uid="uid://corb62yvcoj2h" path="res://assets/sounds/player_hit.wav" id="20_bs0y5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tdnyy"]
+resource_local_to_scene = true
+shader = ExtResource("2_cdb8h")
+shader_parameter/active = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s7yt6"]
 atlas = ExtResource("1_ops1q")
@@ -43,6 +51,60 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0wrmk"]
 size = Vector2(8, 5)
+
+[sub_resource type="Animation" id="Animation_hw7my"]
+resource_name = "hit"
+length = 0.11
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"setShader"
+}, {
+"args": [false],
+"method": &"setShader"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../AnimatedSprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.261799, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_4jad8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pqbv5"]
+_data = {
+"RESET": SubResource("Animation_4jad8"),
+"hit": SubResource("Animation_hw7my")
+}
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cs73l"]
 atlas = ExtResource("3_38y86")
@@ -700,6 +762,7 @@ _data = {
 radius = 8.0
 
 [node name="Player" type="CharacterBody2D"]
+process_mode = 1
 y_sort_enabled = true
 position = Vector2(0, 3)
 collision_layer = 2
@@ -707,6 +770,7 @@ script = ExtResource("1_2aebs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+material = SubResource("ShaderMaterial_tdnyy")
 position = Vector2(1, -5)
 sprite_frames = SubResource("SpriteFrames_d4han")
 autoplay = "default"
@@ -720,6 +784,12 @@ shape = SubResource("RectangleShape2D_0wrmk")
 zoom = Vector2(3, 3)
 position_smoothing_enabled = true
 position_smoothing_speed = 100.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Gun")
+libraries = {
+"": SubResource("AnimationLibrary_pqbv5")
+}
 
 [node name="Gun" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -771,6 +841,10 @@ volume_db = 5.0
 [node name="CooldownTimer" type="Timer" parent="Gun"]
 one_shot = true
 
+[node name="SoundGunEmpty" type="AudioStreamPlayer2D" parent="Gun"]
+stream = ExtResource("18_n81lb")
+volume_db = -4.0
+
 [node name="PickupArea2D" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 16
@@ -780,6 +854,12 @@ shape = SubResource("CircleShape2D_gwwap")
 
 [node name="SoundGetTear" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("18_kwnil")
+
+[node name="SoundPlayerHit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("20_bs0y5")
+
+[node name="HitCooldownTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="body_entered" from="PickupArea2D" to="." method="_on_pickup_area_2d_body_entered"]
 [connection signal="body_exited" from="PickupArea2D" to="." method="_on_pickup_area_2d_body_exited"]

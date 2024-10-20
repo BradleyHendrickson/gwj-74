@@ -1,9 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://bwi541hhk6ryr"]
+[gd_scene load_steps=18 format=3 uid="uid://bwi541hhk6ryr"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/characters/enemy/ghost_small.gd" id="1_hjmqh"]
 [ext_resource type="Texture2D" uid="uid://ficstt4lqr85" path="res://assets/sprites/ghost_small.png" id="1_uqr63"]
 [ext_resource type="PackedScene" uid="uid://dn6dkghyx5fp" path="res://scenes/gameplay/effects/smoke_generator.tscn" id="2_1v4g7"]
-[ext_resource type="PackedScene" uid="uid://brn5ilv3dcg8q" path="res://scenes/gameplay/level/ghost_tear.tscn" id="2_eplqf"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/level/ghost_tear.tscn" id="2_eplqf"]
+[ext_resource type="PackedScene" uid="uid://bk3urucr2v35s" path="res://scenes/gameplay/characters/enemy/effect_enemy_die.tscn" id="3_78axc"]
+[ext_resource type="Shader" path="res://scenes/gameplay/characters/enemy/ghost_hit.gdshader" id="5_8sth6"]
+[ext_resource type="AudioStream" uid="uid://do2x6kfn0louc" path="res://assets/sounds/Hit_Hurt35.wav" id="6_rylsw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_72b7n"]
+resource_local_to_scene = true
+shader = ExtResource("5_8sth6")
+shader_parameter/active = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qnmtd"]
 atlas = ExtResource("1_uqr63")
@@ -28,21 +36,80 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uemew"]
-size = Vector2(12, 10)
+size = Vector2(14, 12)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_irilg"]
 radius = 704.284
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chry7"]
+size = Vector2(12, 10)
+
+[sub_resource type="Animation" id="Animation_vef8k"]
+resource_name = "hit"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.261799, 0.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"setShader"
+}, {
+"args": [false],
+"method": &"setShader"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_thyiw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3ujr7"]
+_data = {
+"RESET": SubResource("Animation_thyiw"),
+"hit": SubResource("Animation_vef8k")
+}
+
 [node name="GhostSmall" type="CharacterBody2D"]
+process_mode = 1
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_hjmqh")
 health = 2
 GhostTear = ExtResource("2_eplqf")
+die_effect = ExtResource("3_78axc")
 
 [node name="SmokeGenerator" parent="." instance=ExtResource("2_1v4g7")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_72b7n")
 sprite_frames = SubResource("SpriteFrames_8r3jv")
 autoplay = "default"
 frame_progress = 0.840772
@@ -59,5 +126,24 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_irilg")
 
+[node name="SoundHit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_rylsw")
+volume_db = -4.0
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_chry7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3ujr7")
+}
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="HurtBox" to="." method="_on_hurt_box_body_entered"]
+[connection signal="body_exited" from="HurtBox" to="." method="_on_hurt_box_body_exited"]

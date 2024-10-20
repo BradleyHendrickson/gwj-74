@@ -1,22 +1,29 @@
-[gd_scene load_steps=15 format=3 uid="uid://bds4qwlp0q4ox"]
+[gd_scene load_steps=19 format=3 uid="uid://bds4qwlp0q4ox"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/game controllers/game_controller.gd" id="1_ors37"]
 [ext_resource type="PackedScene" uid="uid://cwn1et87gy81h" path="res://scenes/gameplay/characters/player/player.tscn" id="2_454ws"]
 [ext_resource type="PackedScene" uid="uid://bfx65l404vcx2" path="res://scenes/gameplay/level/locked_door.tscn" id="2_lgqgq"]
 [ext_resource type="AudioStream" uid="uid://jlt34qn076h2" path="res://assets/sounds/ghost-of-caesar-20353.mp3" id="2_qr823"]
 [ext_resource type="Texture2D" uid="uid://de0rtcmxgi80x" path="res://assets/sprites/vignette.png" id="2_txndp"]
-[ext_resource type="LabelSettings" uid="uid://cbpt7uwkg4pae" path="res://scenes/gameplay/game controllers/DebugLabelSettings.tres" id="4_bo66v"]
+[ext_resource type="LabelSettings" path="res://scenes/gameplay/game controllers/DebugLabelSettings.tres" id="4_bo66v"]
 [ext_resource type="PackedScene" uid="uid://bwi541hhk6ryr" path="res://scenes/gameplay/characters/enemy/ghost_small.tscn" id="4_ppoda"]
 [ext_resource type="AudioStream" uid="uid://c4n06fafssy4a" path="res://assets/sounds/go_up_stairs.wav" id="5_setkt"]
 [ext_resource type="AudioStream" uid="uid://cvj6mw58e0ugh" path="res://assets/sounds/door_slam.wav" id="8_ns2qr"]
+[ext_resource type="AudioStream" uid="uid://ba25div4r5w6q" path="res://assets/sounds/shop_music.mp3" id="8_ymj2g"]
+[ext_resource type="AudioStream" uid="uid://bwd1vef5g3hje" path="res://assets/sounds/music_game_over.mp3" id="9_lspo2"]
 [ext_resource type="AudioStream" uid="uid://bertapc6strrg" path="res://assets/sounds/door_open.wav" id="9_n80yp"]
 [ext_resource type="AudioStream" uid="uid://od3jlhbp1cch" path="res://assets/sounds/old_church_bell.mp3" id="9_r106d"]
 [ext_resource type="PackedScene" uid="uid://bckio4xst1ox7" path="res://scenes/gameplay/store/store_level.tscn" id="11_owq32"]
 [ext_resource type="AudioStream" uid="uid://crvvdivddgwxy" path="res://assets/sounds/trapdoor_close.wav" id="13_lm15b"]
+[ext_resource type="PackedScene" uid="uid://lnstkfcaamvm" path="res://scenes/menus/options_menu/mini_options_menu.tscn" id="15_33pdk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cb1me"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_7ivjs"]
+font_size = 64
+
 [node name="GameController" type="Node2D" groups=["gamecontroller"]]
+process_mode = 3
 script = ExtResource("1_ors37")
 playerObject = ExtResource("2_454ws")
 LockedDoor = ExtResource("2_lgqgq")
@@ -38,22 +45,34 @@ one_shot = true
 
 [node name="GameMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_qr823")
+bus = &"Music"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="GameMusic2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_ymj2g")
+volume_db = -8.0
+bus = &"Music"
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="GameMusic3" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_lspo2")
+volume_db = -8.0
+bus = &"Music"
+
+[node name="DebugCanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="DebugCanvasLayer"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="DebugLabel" type="Label" parent="CanvasLayer/Control"]
+[node name="DebugLabel" type="Label" parent="DebugCanvasLayer/Control"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 16.0
 label_settings = ExtResource("4_bo66v")
+metadata/_edit_use_anchors_ = true
 
-[node name="RoomInfoLabel" type="Label" parent="CanvasLayer/Control"]
+[node name="RoomInfoLabel" type="Label" parent="DebugCanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 32.0
@@ -122,6 +141,121 @@ one_shot = true
 [node name="SoundTrapdoorClose" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("13_lm15b")
 
+[node name="InGameOptions" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Control" type="Control" parent="InGameOptions"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="InGameOptions/Control"]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 704.0
+color = Color(0.0784314, 0.121569, 0.145098, 0.717647)
+
+[node name="MiniOptionsMenu" parent="InGameOptions/Control" instance=ExtResource("15_33pdk")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.656
+anchor_bottom = 0.685
+offset_left = 384.0
+offset_top = 128.0
+offset_right = 869.76
+offset_bottom = 360.6
+
+[node name="ButtonResumeGame" type="Button" parent="InGameOptions/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 432.0
+offset_top = 384.0
+offset_right = 552.0
+offset_bottom = 368.0
+text = "Resume Game"
+
+[node name="Label" type="Label" parent="InGameOptions/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 560.0
+offset_top = 48.0
+offset_right = 672.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Pause"
+label_settings = SubResource("LabelSettings_7ivjs")
+horizontal_alignment = 1
+
+[node name="ButtonBackToMain" type="Button" parent="InGameOptions/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 688.0
+offset_top = 384.0
+offset_right = 808.0
+offset_bottom = 368.0
+text = "Back to Main Menu"
+
+[node name="DeathMenu" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Control" type="Control" parent="DeathMenu"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="DeathMenu/Control"]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 704.0
+color = Color(0.0784314, 0.121569, 0.145098, 0.717647)
+
+[node name="Label" type="Label" parent="DeathMenu/Control/ColorRect"]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 144.0
+offset_right = 864.0
+offset_bottom = 256.0
+text = "You perished within the manor, becoming yet 
+another ghost to roam its haunted halls..."
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="DeathMenu/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 560.0
+offset_top = 48.0
+offset_right = 672.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You Died"
+label_settings = SubResource("LabelSettings_7ivjs")
+horizontal_alignment = 1
+
+[node name="DeathButtonBackToMain" type="Button" parent="DeathMenu/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 560.0
+offset_top = 256.0
+offset_right = 680.0
+offset_bottom = 240.0
+text = "Back to Main Menu"
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="timeout" from="WaveEndTimer" to="." method="_on_wave_end_timer_timeout"]
@@ -129,3 +263,6 @@ stream = ExtResource("13_lm15b")
 [connection signal="timeout" from="TrapdoorTimer" to="." method="_on_trapdoor_timer_timeout"]
 [connection signal="timeout" from="EnterShopTimer" to="." method="_on_enter_shop_timer_timeout"]
 [connection signal="timeout" from="ExitShopTimer" to="." method="_on_exit_shop_timer_timeout"]
+[connection signal="pressed" from="InGameOptions/Control/ButtonResumeGame" to="." method="_on_button_resume_game_pressed"]
+[connection signal="pressed" from="InGameOptions/Control/ButtonBackToMain" to="." method="_on_button_back_to_main_pressed"]
+[connection signal="pressed" from="DeathMenu/Control/DeathButtonBackToMain" to="." method="_on_button_back_to_main_pressed"]

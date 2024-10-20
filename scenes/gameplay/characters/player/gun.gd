@@ -9,6 +9,7 @@ extends Node2D
 @onready var reload_sound: AudioStreamPlayer2D = $ReloadSound
 @onready var reload_start: AudioStreamPlayer2D = $ReloadStart
 @onready var reload_finish: AudioStreamPlayer2D = $ReloadFinish
+@onready var sound_gun_empty: AudioStreamPlayer2D = $SoundGunEmpty
 
 @onready var gun_core: Node2D = $GunCore
 @onready var gun_magazine: Node2D = $GunMagazine
@@ -77,13 +78,10 @@ func shoot():
 			var new_bullet = gun_core.bullet.instantiate()
 			get_tree().root.add_child(new_bullet)
 			new_bullet.transform = Transform2D( rotation  - rand_dir , global_position + Vector2(MUZZLE_DISTANCE * cos(rotation), MUZZLE_DISTANCE * sin(rotation)))
-	else:
-		reload_start.pitch_scale = 3
-		reload_start.play()
 		
 
 func isReloading():
-	if (animated_sprite_2d.animation == "spin_start" or animated_sprite_2d.animation=="spin_infinite" or animated_sprite_2d.animation=="spin_finish") and animated_sprite_2d.is_playing():
+	if (animated_sprite_2d.animation == "spin_start" or animated_sprite_2d.animation=="spin_infinite") and animated_sprite_2d.is_playing():
 		return true
 	else:
 		return false
@@ -133,6 +131,7 @@ func swapCore(newCore):
 	add_child(gun_core)  # Add the new core to the scene tree
 
 func swapMagazine(newMag):
+	ammo = 0
 	gun_magazine.queue_free()  # Free the current core
 	var newGunMag = newMag.duplicate()  # Create a clone of newCore
 	gun_magazine = newGunMag  # Assign the new clone to gun_core
@@ -146,7 +145,10 @@ func swapNozzle(newNozzle):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
+	if Input.is_action_just_pressed("shoot") and !get_parent().is_paused:
+		if ammo <= 0 and !isReloading():
+			sound_gun_empty.play()
+			smoke_generator.smoke_direction_spread(smoke_amount, rotation, getSpread(), MUZZLE_DISTANCE)	
 
 	
 	if Input.is_action_just_pressed("debug_swap_core"):
