@@ -1,5 +1,8 @@
 extends Node2D
 
+
+@onready var casing_generator: Node2D = $"Casing generator"
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var reload_timer: Timer = $ReloadTimer
 @onready var cooldown_timer: Timer = $CooldownTimer
@@ -18,7 +21,7 @@ extends Node2D
 @export var ammo : int = 0
 @export var auto : bool = false
 @export var uses_ammo : bool = true
-
+@export var casing1 : PackedScene
 @export var GunCorePistol : PackedScene
 @export var GunCoreShotgun : PackedScene
 
@@ -40,7 +43,8 @@ extends Node2D
 
 @export var smoke_amount = 1
 @export var was_stopped = true
-
+@export var casing_amount = 6
+@export var pos = self.position
 var MUZZLE_DISTANCE = 22
 
 # Called when the node enters the scene tree for the first time.
@@ -94,7 +98,9 @@ func reload():
 		animated_sprite_2d.stop()
 		#animated_sprite_2d.speed_scale = gun_magazine.reload_time_mod
 		animated_sprite_2d.play("spin_start")
-		
+		#casing_generator.casing_direction_spread(casing_amount, rotation + rad_to_deg(180), getSpread(), MUZZLE_DISTANCE)	
+	
+			
 		ammo = gun_magazine.capacity
 
 func getDebugLabel():
